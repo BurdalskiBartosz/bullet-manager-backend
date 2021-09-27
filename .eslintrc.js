@@ -18,9 +18,20 @@ module.exports = {
 				singleQuote: true,
 				semi: true,
 				useTabs: true,
-				tabWidth: 4
+				tabWidth: 4,
+				printWidth: 85
 			}
 		],
 		'no-console': 0
-	}
+	},
+	'import/extensions': [
+		'error',
+		'ignorePackages',
+		{
+			js: 'never',
+			jsx: 'never',
+			ts: 'never',
+			tsx: 'never'
+		}
+	]
 };
