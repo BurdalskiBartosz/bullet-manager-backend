@@ -1,9 +1,9 @@
 import express, { Application } from 'express';
-import createError from 'http-errors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/route';
+import errorMiddleware from './middleware/error.middleware';
 
 class App {
 	public app: Application;
@@ -33,9 +33,7 @@ class App {
 	}
 
 	private initErrorHandler() {
-		this.app.use((req, res, next) => {
-			next(createError(404));
-		});
+		this.app.use(errorMiddleware);
 	}
 }
 

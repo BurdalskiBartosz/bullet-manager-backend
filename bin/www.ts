@@ -12,6 +12,7 @@ class WWWWServer {
 	private app;
 	private server: Server;
 	private port: number;
+
 	constructor(app: Application) {
 		this.app = app;
 		this.server = http.createServer(this.app);
@@ -22,16 +23,17 @@ class WWWWServer {
 		this.server.listen(this.port);
 		this.addListenersToServer();
 	}
+
 	private initServer(): void {
 		this.server = http.createServer(this.app);
 	}
+
 	private addListenersToServer(): void {
 		this.server.on('error', () => this.onError.bind(this));
 		this.server.on('listening', () => this.onListening.bind(this));
 	}
+
 	private onListening(): void {
-		console.log(this.server);
-		const addr = this.server.address();
 		console.log('onListening');
 		try {
 			console.log(`Connected successfully on port ${this.port}`);
