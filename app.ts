@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/route';
 import errorMiddleware from './middleware/error.middleware';
+import controllers from './controllers';
 
 class App {
 	public app: Application;
@@ -16,11 +17,11 @@ class App {
 		this.initErrorHandler();
 	}
 
-	public getServer(): Application {
+	public getServer() {
 		return this.app;
 	}
 
-	private initMiddlewares(): void {
+	private initMiddlewares() {
 		this.app.use(logger('dev'));
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
@@ -29,7 +30,7 @@ class App {
 	}
 
 	private initControllers() {
-		this.app.use('/', indexRouter);
+		controllers.forEach((controller) => this.app.use('/api', controller.router));
 	}
 
 	private initErrorHandler() {

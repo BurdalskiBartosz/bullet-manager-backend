@@ -16,7 +16,7 @@ class WWWWServer {
 	constructor(app: Application) {
 		this.app = app;
 		this.server = http.createServer(this.app);
-		this.port = this.normalizePort(process.env.PORT || '3000');
+		this.port = this.normalizePort(process.env.PORT || '3001');
 
 		this.initServer();
 		this.app.set('port', this.port);
@@ -24,16 +24,16 @@ class WWWWServer {
 		this.addListenersToServer();
 	}
 
-	private initServer(): void {
+	private initServer() {
 		this.server = http.createServer(this.app);
 	}
 
-	private addListenersToServer(): void {
+	private addListenersToServer() {
 		this.server.on('error', () => this.onError.bind(this));
 		this.server.on('listening', () => this.onListening.bind(this));
 	}
 
-	private onListening(): void {
+	private onListening() {
 		console.log('onListening');
 		try {
 			console.log(`Connected successfully on port ${this.port}`);
@@ -42,7 +42,7 @@ class WWWWServer {
 		}
 	}
 
-	private onError(error: any): void {
+	private onError(error: any) {
 		if (error.syscall !== 'listen') {
 			throw error;
 		}
