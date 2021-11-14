@@ -7,25 +7,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Date {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-}
-
 model User {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique
-  test   Int
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
 }
 
-model Clien {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Token {
+  id    Int    @id @default(autoincrement())
+  value String
 }
