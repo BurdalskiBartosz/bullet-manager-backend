@@ -2,7 +2,9 @@
 import { Application } from 'express';
 import http, { Server } from 'http';
 import App from '../app';
+import dotenv from 'dotenv';
 
+dotenv.config();
 // const debug = require('debug')('backend:server');
 
 const application = new App();

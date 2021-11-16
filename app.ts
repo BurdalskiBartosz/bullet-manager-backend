@@ -2,8 +2,6 @@ import express, { Application } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import indexRouter from './routes/route';
-import errorMiddleware from './middleware/error.middleware';
 import controllers from './controllers';
 
 class App {
@@ -14,7 +12,6 @@ class App {
 
 		this.initMiddlewares();
 		this.initControllers();
-		this.initErrorHandler();
 	}
 
 	public getServer() {
@@ -31,10 +28,6 @@ class App {
 
 	private initControllers() {
 		controllers.forEach((controller) => this.app.use('/api', controller.router));
-	}
-
-	private initErrorHandler() {
-		this.app.use(errorMiddleware);
 	}
 }
 

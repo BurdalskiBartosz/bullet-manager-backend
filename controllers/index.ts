@@ -1,6 +1,6 @@
 import { Controller } from '../types';
-import UsersController from './user/user.controller';
+import AuthorizationController from './authorization/authorization.controller';
 
-const controllers: Controller[] = [new UsersController()];
+const controllers: Controller[] = [new AuthorizationController()];
 
 export default controllers;
