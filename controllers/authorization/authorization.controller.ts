@@ -6,7 +6,11 @@ import { Prisma } from '.prisma/client';
 import createError from 'http-errors';
 import authorizationMiddleware, { RequestWithUser } from '../../middleware/auth.middleware';
 import * as jwt from 'jsonwebtoken';
+import HttpException from '../../exceptions/httpException';
 
+type DataInJWT = {
+	email: string;
+};
 class AuthorizationController implements Controller {
 	public path = '/auth';
 	public router = Router();
@@ -16,22 +20,28 @@ class AuthorizationController implements Controller {
 	}
 
 	private initializeRoutes() {
-		this.router.get(this.path, authorizationMiddleware, this.getUsers);
 		this.router.post(`${this.path}/register`, this.registration);
 		this.router.post(`${this.path}/login`, this.login);
 		this.router.post(`${this.path}/logout`, this.logout);
+		this.router.post(`${this.path}/refresh`, this.refreshAccessToken);
+		this.router.post(`${this.path}/test`, authorizationMiddleware, (req: RequestWithUser, res: Response, next: NextFunction) => {
+			console.log('REQ USER TEST');
+		});
 	}
 
 	private async login(req: Request, res: Response, next: NextFunction) {
 		try {
+			console.log(req.body);
 			const user = await prisma.user.findUnique({
 				where: {
 					email: req.body.email
 				}
 			});
-			if (!user) return next(createError(400, 'Taki użytkownik nie istnieje.'));
+			if (!user) return next(new HttpException(404, 'NOT_FOUND_USER_WITH_GIVEN_DATA'));
+
 			const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-			if (!isPasswordValid) return res.send({ alias: 'NOT_SUCCESS' });
+
+			if (!isPasswordValid) return next(new HttpException(400, 'INCORRECT_GIVEN_DATA'));
 
 			const accessToken = jwt.sign({ email: user.email }, process.env.TOKEN_SECRET as string, { expiresIn: 86400 });
 			const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET as string, {
@@ -39,12 +49,13 @@ class AuthorizationController implements Controller {
 			});
 
 			res.cookie('JWT', accessToken, {
-				maxAge: 86400000,
-				httpOnly: true
+				maxAge: 864000000,
+				httpOnly: true,
+				secure: false
 			});
-
 			res.send({ accessToken, refreshToken });
 		} catch (e) {
+			console.log(e);
 			res.status(500).send();
 		}
 	}
@@ -67,14 +78,27 @@ class AuthorizationController implements Controller {
 			res.status(201).send();
 		} catch (e) {
 			if (!(e instanceof Prisma.PrismaClientKnownRequestError)) return;
-			if (e.code === 'P2002') {
-				next(createError(400, 'Użytkownik o podanym adresie email już istnieje w bazie.'));
-			}
+			if (e.code === 'P2002') return next(new HttpException(400, 'USER_WITH_GIVEN_EMAIL_ALREADY_EXIST'));
 		}
 	}
 
-	private getUsers(req: RequestWithUser, res: Response, next: NextFunction) {
-		console.log('GET USERS');
+	private async refreshAccessToken(req: RequestWithUser, res: Response) {
+		console.log('REFRESH TOKEN ROUTE');
+		const refreshToken = req.body.token;
+		console.log(refreshToken);
+
+		if (!refreshToken) return res.status(401).send();
+
+		// TODO: Check if refreshToken exists in DB
+
+		const validToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as DataInJWT;
+
+		const email = validToken.email;
+
+		if (!validToken) return res.status(403).send();
+
+		const accessToken = jwt.sign({ email }, process.env.TOKEN_SECRET as string, { expiresIn: 86400 });
+		res.send({ accessToken });
 	}
 }
 
