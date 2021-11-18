@@ -24,9 +24,6 @@ class AuthorizationController implements Controller {
 		this.router.post(`${this.path}/login`, this.login);
 		this.router.post(`${this.path}/logout`, this.logout);
 		this.router.post(`${this.path}/refresh`, this.refreshAccessToken);
-		this.router.post(`${this.path}/test`, authorizationMiddleware, (req: RequestWithUser, res: Response, next: NextFunction) => {
-			console.log('REQ USER TEST');
-		});
 	}
 
 	private async login(req: Request, res: Response, next: NextFunction) {
