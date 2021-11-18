@@ -19,7 +19,7 @@ module.exports = {
 				semi: true,
 				useTabs: true,
 				tabWidth: 4,
-				printWidth: 85
+				printWidth: 140
 			}
 		],
 		'no-console': 0

@@ -2,9 +2,9 @@ import express, { Application } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import indexRouter from './routes/route';
+import controllers from './controllers';
+import cors from 'cors';
 import errorMiddleware from './middleware/error.middleware';
-
 class App {
 	public app: Application;
 
@@ -16,20 +16,21 @@ class App {
 		this.initErrorHandler();
 	}
 
-	public getServer(): Application {
+	public getServer() {
 		return this.app;
 	}
 
-	private initMiddlewares(): void {
+	private initMiddlewares() {
+		this.app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 		this.app.use(logger('dev'));
 		this.app.use(express.json());
-		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cookieParser());
+		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(express.static(path.join(__dirname, 'public')));
 	}
 
 	private initControllers() {
-		this.app.use('/', indexRouter);
+		controllers.forEach((controller) => this.app.use('/api', controller.router));
 	}
 
 	private initErrorHandler() {
