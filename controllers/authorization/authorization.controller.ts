@@ -3,8 +3,7 @@ import prisma from '../../prisma/prismaClient';
 import { Controller } from '../../types';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '.prisma/client';
-import createError from 'http-errors';
-import authorizationMiddleware, { RequestWithUser } from '../../middleware/auth.middleware';
+import { RequestWithUser } from '../../middleware/auth.middleware';
 import * as jwt from 'jsonwebtoken';
 import HttpException from '../../exceptions/httpException';
 
@@ -52,8 +51,7 @@ class AuthorizationController implements Controller {
 			});
 			res.send({ accessToken, refreshToken });
 		} catch (e) {
-			console.log(e);
-			res.status(500).send();
+			res.status(500).send({ message: 'SERVER_ERROR' });
 		}
 	}
 	private logout(req: Request, res: Response) {
@@ -74,7 +72,7 @@ class AuthorizationController implements Controller {
 			});
 			res.status(201).send();
 		} catch (e) {
-			if (!(e instanceof Prisma.PrismaClientKnownRequestError)) return;
+			if (!(e instanceof Prisma.PrismaClientKnownRequestError)) return res.status(500).send({ message: 'SERVER_ERROR' });
 			if (e.code === 'P2002') return next(new HttpException(400, 'USER_WITH_GIVEN_EMAIL_ALREADY_EXIST'));
 		}
 	}
