@@ -11,9 +11,21 @@ model User {
   id       Int    @id @default(autoincrement())
   email    String @unique
   password String
+  tasks    Task[]
 }
 
 model Token {
   id    Int    @id @default(autoincrement())
   value String
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int
+  dateToEnd DateTime @default(now())
+  name      String   @default("")
+  content   Json     @default("")
+  config    Json     @default("")
+  type      String   @default("")
 }
