@@ -1,15 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import prisma from '../../prisma/prismaClient';
-import { Controller } from '../../types';
+import { Controller, DataInJWT } from '../../types';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '.prisma/client';
-import { RequestWithUser } from '../../middleware/auth.middleware';
 import * as jwt from 'jsonwebtoken';
 import HttpException from '../../exceptions/httpException';
 
-type DataInJWT = {
-	email: string;
-};
 class AuthorizationController implements Controller {
 	public path = '/auth';
 	public router = Router();
@@ -27,20 +23,20 @@ class AuthorizationController implements Controller {
 
 	private async login(req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log(req.body);
 			const user = await prisma.user.findUnique({
 				where: {
 					email: req.body.email
 				}
 			});
+
 			if (!user) return next(new HttpException(404, 'NOT_FOUND_USER_WITH_GIVEN_DATA'));
 
 			const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
 			if (!isPasswordValid) return next(new HttpException(400, 'INCORRECT_GIVEN_DATA'));
 
-			const accessToken = jwt.sign({ email: user.email }, process.env.TOKEN_SECRET as string, { expiresIn: 86400 });
-			const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET as string, {
+			const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.TOKEN_SECRET as string, { expiresIn: 86400 });
+			const refreshToken = jwt.sign({ id: user.id, email: user.email }, process.env.REFRESH_TOKEN_SECRET as string, {
 				expiresIn: 525600
 			});
 
@@ -49,7 +45,8 @@ class AuthorizationController implements Controller {
 				httpOnly: true,
 				secure: false
 			});
-			res.send({ accessToken, refreshToken });
+			const { password, ...userData } = user;
+			res.send({ accessToken, refreshToken, user: userData });
 		} catch (e) {
 			res.status(500).send({ message: 'SERVER_ERROR' });
 		}
@@ -77,7 +74,7 @@ class AuthorizationController implements Controller {
 		}
 	}
 
-	private async refreshAccessToken(req: RequestWithUser, res: Response) {
+	private async refreshAccessToken(req: Request, res: Response) {
 		console.log('REFRESH TOKEN ROUTE');
 		const refreshToken = req.body.token;
 		console.log(refreshToken);

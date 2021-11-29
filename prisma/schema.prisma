@@ -20,12 +20,14 @@ model Token {
 }
 
 model Task {
-  id        Int    @id @default(autoincrement())
-  user      User?  @relation(fields: [userId], references: [id])
+  id        Int     @id @default(autoincrement())
+  user      User?   @relation(fields: [userId], references: [id])
   userId    Int
-  title     String @default("")
-  content   String @default("")
-  priority  String @default("")
-  type      String @default("")
-  spendTime Int    @default(0)
+  title     String  @default("")
+  content   String  @default("")
+  priority  String  @default("")
+  type      String  @default("")
+  spendTime Int     @default(0)
+  state     Boolean @default(false)
+  date      String  @default("")
 }

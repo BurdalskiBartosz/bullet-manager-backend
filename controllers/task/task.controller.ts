@@ -1,17 +1,8 @@
 import { NextFunction, Response, Router } from 'express';
-import authorizationMiddleware, { RequestWithUser } from '../../middleware/auth.middleware';
+import authorizationMiddleware from '../../middleware/auth.middleware';
 import prisma from '../../prisma/prismaClient';
-import { Controller } from '../../types';
+import { Controller, CustomRequestWithUser, ITask, RequestWithUser } from '../../types';
 
-interface RequestWithTask {
-	title: string;
-	content: string;
-	type: string;
-	priority: string;
-}
-interface CustomRequest<T> extends RequestWithUser {
-	body: T;
-}
 class TaskController implements Controller {
 	public path = '/task';
 	public router = Router();
@@ -21,10 +12,11 @@ class TaskController implements Controller {
 	}
 
 	private initializeRoutes() {
-		this.router.post(`${this.path}/create`, authorizationMiddleware, this.create);
+		this.router.post(`${this.path}`, authorizationMiddleware, this.create);
+		this.router.get(`${this.path}`, authorizationMiddleware, this.get);
 	}
 
-	private async create(req: CustomRequest<RequestWithTask>, res: Response, next: NextFunction) {
+	private async create(req: CustomRequestWithUser<ITask>, res: Response, next: NextFunction) {
 		try {
 			await prisma.task.create({
 				data: {
@@ -37,7 +29,18 @@ class TaskController implements Controller {
 			});
 			res.status(201).send();
 		} catch (e) {
-			console.log(e);
+			res.status(500).send({ message: 'SERVER_ERROR' });
+		}
+	}
+	private async get(req: RequestWithUser, res: Response, next: NextFunction) {
+		try {
+			const tasks = await prisma.task.findMany({
+				where: {
+					userId: req.user?.id
+				}
+			});
+			res.status(200).send(tasks);
+		} catch (e) {
 			res.status(500).send({ message: 'SERVER_ERROR' });
 		}
 	}
