@@ -21,6 +21,12 @@ export type ITask = {
 	priority: string;
 	date: string;
 };
+
+export type INote = {
+	content: string;
+	type: string;
+	date: string;
+};
 export interface CustomRequestWithUser<T> extends RequestWithUser {
 	body: T;
 }
