@@ -30,11 +30,11 @@ export type DataInJWT = {
 	email: string;
 };
 
-export type GetTaskQuery<T> = {
+export type IQuery<T> = {
 	where: T;
 };
 
-export type GetTaskStringQuery =
+export type IStringQuery =
 	| {
 			date: string;
 	  }

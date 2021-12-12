@@ -1,8 +1,8 @@
 import { Response, Router } from 'express';
 import authorizationMiddleware from '../../middleware/auth.middleware';
 import prisma from '../../prisma/prismaClient';
-import { Controller, CustomRequestWithUser, GetTaskQuery, GetTaskStringQuery, ITask, RequestWithUser } from '../../types';
-
+import { Controller, CustomRequestWithUser, IQuery, IStringQuery, ITask, RequestWithUser } from '../../types';
+import { tryParseJSON } from '../../utils/parseJSON';
 class TaskController implements Controller {
 	public path = '/task';
 	public router = Router();
@@ -35,9 +35,9 @@ class TaskController implements Controller {
 	}
 	private async get(req: RequestWithUser, res: Response) {
 		try {
-			const { where } = req.query as unknown as GetTaskQuery<JSON>;
-			let decodedQuery: GetTaskStringQuery;
-			if (typeof where === 'string') decodedQuery = JSON.parse(where);
+			const { where } = req.query as unknown as IQuery<JSON>;
+			let decodedQuery: IStringQuery;
+			if (typeof where === 'string') decodedQuery = tryParseJSON(where, {});
 			const tasks = await prisma.task.findMany({
 				where: {
 					userId: req.user?.id,
