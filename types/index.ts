@@ -1,9 +1,11 @@
 import { Request, Router } from 'express';
 
-export type Controller = {
+export interface Controller {
 	path: string;
 	router: Router;
-};
+
+	initializeRoutes(): void;
+}
 
 export type IUser = {
 	id: number;

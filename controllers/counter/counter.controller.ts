@@ -3,8 +3,8 @@ import authorizationMiddleware from '../../middleware/auth.middleware';
 import prisma from '../../prisma/prismaClient';
 import { Controller, CustomRequestWithUser, IQuery, IStringQuery, ITask, RequestWithUser } from '../../types';
 import { tryParseJSON } from '../../utils/parseJSON';
-class TaskController implements Controller {
-	public path = '/task';
+class CounterController implements Controller {
+	public path = '/counter';
 	public router = Router();
 
 	constructor() {
@@ -103,4 +103,4 @@ class TaskController implements Controller {
 	}
 }
 
-export default TaskController;
+export default CounterController;

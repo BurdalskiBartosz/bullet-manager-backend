@@ -12,7 +12,7 @@ class BookController implements Controller {
 		this.initializeRoutes();
 	}
 
-	private initializeRoutes() {
+	initializeRoutes() {
 		this.router.post(`${this.path}`, authorizationMiddleware, this.create);
 		this.router.get(`${this.path}`, authorizationMiddleware, this.get);
 	}

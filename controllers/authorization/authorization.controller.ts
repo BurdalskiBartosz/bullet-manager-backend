@@ -14,7 +14,7 @@ class AuthorizationController implements Controller {
 		this.initializeRoutes();
 	}
 
-	private initializeRoutes() {
+	initializeRoutes() {
 		this.router.post(`${this.path}/register`, this.registration);
 		this.router.post(`${this.path}/login`, this.login);
 		this.router.post(`${this.path}/logout`, this.logout);
