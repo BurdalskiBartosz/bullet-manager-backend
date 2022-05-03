@@ -12,12 +12,6 @@ model User {
   email    String @unique
   password String
   tasks    Task[]
-  notes    Note[]
-}
-
-model Token {
-  id    Int    @id @default(autoincrement())
-  value String
 }
 
 model Task {
@@ -31,13 +25,4 @@ model Task {
   spendTime Int     @default(0)
   state     Boolean @default(false)
   date      String  @default("")
-}
-
-model Note {
-  id      Int    @id @default(autoincrement())
-  User    User?  @relation(fields: [userId], references: [id])
-  userId  Int
-  content String @default("")
-  type    String @default("")
-  date    String @default("")
 }

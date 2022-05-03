@@ -11,9 +11,12 @@ class TaskController implements Controller {
 		this.initializeRoutes();
 	}
 
-	private initializeRoutes() {
-		this.router.post(`${this.path}`, authorizationMiddleware, this.create);
+	initializeRoutes() {
+		this.router.get(`${this.path}/:id`, authorizationMiddleware, this.getOne);
 		this.router.get(`${this.path}`, authorizationMiddleware, this.get);
+		this.router.post(`${this.path}`, authorizationMiddleware, this.create);
+		this.router.put(`${this.path}/:id`, authorizationMiddleware, this.update);
+		this.router.delete(`${this.path}/:id`, authorizationMiddleware, this.delete);
 	}
 
 	private async create(req: CustomRequestWithUser<ITask>, res: Response) {
@@ -23,7 +26,6 @@ class TaskController implements Controller {
 					userId: req.user?.id,
 					title: req.body.title,
 					content: req.body.content,
-					type: req.body.type,
 					priority: req.body.priority,
 					date: req.body.date
 				}
@@ -45,6 +47,54 @@ class TaskController implements Controller {
 				}
 			});
 			res.status(201).send(tasks);
+		} catch (e) {
+			res.status(500).send({ message: 'SERVER_ERROR' });
+		}
+	}
+
+	private async getOne(req: RequestWithUser, res: Response) {
+		try {
+			const { id } = req.params;
+			const task = await prisma.task.findUnique({
+				where: {
+					id: Number(id)
+				}
+			});
+			res.status(201).send(task);
+		} catch (e) {
+			res.status(500).send({ message: 'SERVER_ERROR' });
+		}
+	}
+
+	private async update(req: CustomRequestWithUser<ITask>, res: Response) {
+		try {
+			const { id } = req.params;
+			const task = await prisma.task.update({
+				where: {
+					id: Number(id)
+				},
+				data: {
+					title: req.body.title,
+					content: req.body.content,
+					priority: req.body.priority,
+					date: req.body.date
+				}
+			});
+			res.status(201).send(task);
+		} catch (e) {
+			res.status(500).send({ message: 'SERVER_ERROR' });
+		}
+	}
+
+	private async delete(req: RequestWithUser, res: Response) {
+		try {
+			const { id } = req.params;
+			const task = await prisma.task.delete({
+				where: {
+					id: Number(id)
+				}
+			});
+			res.status(201).send(task);
 		} catch (e) {
 			res.status(500).send({ message: 'SERVER_ERROR' });
 		}
