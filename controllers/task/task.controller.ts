@@ -26,7 +26,6 @@ class TaskController implements Controller {
 					userId: req.user?.id,
 					title: req.body.title,
 					content: req.body.content,
-					type: req.body.type,
 					priority: req.body.priority,
 					date: req.body.date
 				}
@@ -77,7 +76,6 @@ class TaskController implements Controller {
 				data: {
 					title: req.body.title,
 					content: req.body.content,
-					type: req.body.type,
 					priority: req.body.priority,
 					date: req.body.date
 				}

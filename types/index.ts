@@ -19,7 +19,6 @@ export interface RequestWithUser extends Request {
 export type ITask = {
 	title: string;
 	content: string;
-	type: string;
 	priority: string;
 	date: string;
 };
@@ -28,6 +27,14 @@ export type INote = {
 	content: string;
 	type: string;
 	date: string;
+};
+export type IBook = {
+	title: string;
+	author: string;
+	mark: string;
+	readingsNumber: number;
+	state: string;
+	opinion: string;
 };
 export interface CustomRequestWithUser<T> extends RequestWithUser {
 	body: T;
@@ -45,5 +52,6 @@ export type IQuery<T> = {
 export type IStringQuery =
 	| {
 			date: string;
+			priority?: string;
 	  }
 	| undefined;
