@@ -1,10 +1,11 @@
-import { Request, Router } from 'express';
+import { Request, Response, Router } from 'express';
 
-export interface Controller {
-	path: string;
-	router: Router;
+export type tErrorsCode = 'P2002';
+export class Controller {
+	public path!: string;
+	public router: Router = Router();
 
-	initializeRoutes(): void;
+	initializeRoutes() {}
 }
 
 export type IUser = {
@@ -23,35 +24,6 @@ export type ITask = {
 	date: string;
 };
 
-export type INote = {
-	content: string;
-	type: string;
-	date: string;
-};
-export type IBook = {
-	title: string;
-	author: string;
-	mark: string;
-	readingsNumber: number;
-	state: string;
-	opinion: string;
-};
 export interface CustomRequestWithUser<T> extends RequestWithUser {
 	body: T;
 }
-
-export type DataInJWT = {
-	id: number;
-	email: string;
-};
-
-export type IQuery<T> = {
-	where: T;
-};
-
-export type IStringQuery =
-	| {
-			date: string;
-			priority?: string;
-	  }
-	| undefined;
