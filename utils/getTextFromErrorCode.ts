@@ -1,4 +1,4 @@
-import { tErrorsCode } from '../types';
+import { tErrorsCode } from '../types/errors';
 import errorsCode from './errorsCode.json';
 
 export const getTextFromErrorCode = (code: tErrorsCode) => {

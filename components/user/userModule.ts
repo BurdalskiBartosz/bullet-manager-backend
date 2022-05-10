@@ -1,9 +1,6 @@
+import { Module } from '../shared';
 import UserController from './UserController';
 import UserService from './UserServices';
-
-export abstract class Module {
-	abstract init(): Object;
-}
 
 class UserModule extends Module {
 	init() {

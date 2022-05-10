@@ -3,8 +3,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
-import errorMiddleware from './middleware/error.middleware';
 import { modules } from './modules';
+import { errorMiddleware } from './middleware';
 class App {
 	public app: Application;
 
