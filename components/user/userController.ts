@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { async } from '../../helpers';
-import { RequestWithUserr } from '../../types';
+import { tRequestWithUser } from '../../types';
 import { Controller, Service } from '../shared';
 
 class UserController extends Controller<Service> {
@@ -12,7 +12,7 @@ class UserController extends Controller<Service> {
 		this.router.post(`${this.path}/register`, async(this.register));
 	}
 
-	private login = async (req: RequestWithUserr, res: Response, next: NextFunction) => {
+	private login = async (req: tRequestWithUser, res: Response, next: NextFunction) => {
 		const data = this.getData(req);
 		await this.service.login(data);
 	};
