@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { asyncMiddleware } from '../../middleware';
+import { async } from '../../helpers';
 import { RequestWithUserr } from '../../types';
 import { Controller, Service } from '../shared';
 
@@ -8,8 +8,8 @@ class UserController extends Controller<Service> {
 	static path: string = 'auth';
 
 	initializeRoutes() {
-		this.router.post(`${this.path}/login`, asyncMiddleware(this.login));
-		this.router.post(`${this.path}/register`, asyncMiddleware(this.register));
+		this.router.post(`${this.path}/login`, async(this.login));
+		this.router.post(`${this.path}/register`, async(this.register));
 	}
 
 	private login = async (req: RequestWithUserr, res: Response, next: NextFunction) => {
