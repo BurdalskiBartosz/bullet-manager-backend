@@ -1,9 +1,9 @@
 import * as jwt from 'jsonwebtoken';
 
 import { NextFunction, Response } from 'express';
-import { RequestWithUser } from '../types';
+import { RequestWithUser } from '../../types';
 
-function authorizationMiddleware(req: RequestWithUser, res: Response, next: NextFunction) {
+export default (req: RequestWithUser, res: Response, next: NextFunction) => {
 	const token = req.cookies.JWT;
 	if (token === null) return res.sendStatus(401);
 	jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
@@ -11,6 +11,4 @@ function authorizationMiddleware(req: RequestWithUser, res: Response, next: Next
 		req.user = user;
 		next();
 	});
-}
-
-export default authorizationMiddleware;
+};
