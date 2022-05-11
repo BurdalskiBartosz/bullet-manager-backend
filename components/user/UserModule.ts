@@ -1,6 +1,6 @@
 import { Module } from '../shared';
 import UserController from './UserController';
-import UserService from './UserServices';
+import UserService from './UserService';
 
 class UserModule extends Module {
 	init() {
