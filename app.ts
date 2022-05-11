@@ -2,15 +2,14 @@ import express, { Application } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import controllers from './controllers';
 import cors from 'cors';
-import errorMiddleware from './middleware/error.middleware';
+import { modules } from './modules';
+import { errorMiddleware } from './middleware';
 class App {
 	public app: Application;
 
 	constructor() {
 		this.app = express();
-
 		this.initMiddlewares();
 		this.initControllers();
 		this.initErrorHandler();
@@ -30,7 +29,20 @@ class App {
 	}
 
 	private initControllers() {
-		controllers.forEach((controller) => this.app.use('/api', controller.router));
+		modules.forEach((Module) => {
+			const module = new Module();
+			const { Controller, Service } = module.init();
+			const controller = new Controller(Service);
+			controller.initializeRoutes();
+			this.app.use('/api', (...args) => controller.router(...args));
+		});
+
+		// modules.forEach((el) => {
+		// 	const { Controller, Service } = el.init();
+		// 	const t = new Controller(this.context, Service);
+		// 	t.initializeRoutes();
+		// 	this.app.use(`/api/${Controller.path}`, t.router);
+		// });
 	}
 
 	private initErrorHandler() {

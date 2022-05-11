@@ -1,23 +1,12 @@
-// class HttpException extends Error {
-// 	public status: number;
-// 	public message: string;
-// 	constructor(status: number, message: string) {
-// 		super(message);
-// 		console.log('HTTP Exceptios');
-// 		this.status = status;
-// 		this.message = message;
-// 	}
-// }
-
 export type HttpCode = 404 | 400 | 500;
 export class HttpException extends Error {
 	public readonly name: string;
 	public readonly httpCode: HttpCode;
+	public readonly code?: string;
 
 	constructor(name: string, httpCode: HttpCode, description: string) {
 		super(description);
-
-		Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+		Object.setPrototypeOf(this, new.target.prototype);
 
 		this.name = name;
 		this.httpCode = httpCode;

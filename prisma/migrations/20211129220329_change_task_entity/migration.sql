@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `task` ADD COLUMN `date` VARCHAR(191) NOT NULL DEFAULT '',
-    ADD COLUMN `state` BOOLEAN NOT NULL DEFAULT false;
