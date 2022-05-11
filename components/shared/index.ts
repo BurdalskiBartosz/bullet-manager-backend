@@ -1,7 +1,7 @@
 import { Request, Router } from 'express';
 import { iClassGenericContructor } from '../../types/class';
 
-export abstract class Controller<Service> {
+export abstract class Controller {
 	abstract path: string;
 	public service: Service;
 	public router = Router();
