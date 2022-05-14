@@ -1,9 +1,9 @@
 import { Controller } from '../shared';
 
-class UserController extends Controller {
+class TokenController extends Controller {
 	public path: string = '/token';
 
 	initializeRoutes() {}
 }
 
-export default UserController;
+export default TokenController;
