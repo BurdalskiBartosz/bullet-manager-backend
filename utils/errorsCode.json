@@ -1,3 +1,4 @@
 {
-	"P2002": "USER_WITH_GIVEN_EMAIL_ALREADY_EXIST"
+	"P2002-email": "User with given email already exist",
+	"P2002-login": "User with given login already exist"
 }
