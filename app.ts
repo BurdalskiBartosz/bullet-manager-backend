@@ -36,13 +36,6 @@ class App {
 			controller.initializeRoutes();
 			this.app.use('/api', (...args) => controller.router(...args));
 		});
-
-		// modules.forEach((el) => {
-		// 	const { Controller, Service } = el.init();
-		// 	const t = new Controller(this.context, Service);
-		// 	t.initializeRoutes();
-		// 	this.app.use(`/api/${Controller.path}`, t.router);
-		// });
 	}
 
 	private initErrorHandler() {

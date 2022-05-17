@@ -7,7 +7,7 @@ export default (error: HttpException, request: Request, response: Response, next
 	const status = error.httpCode || 500;
 	let message = error.message || 'Something went wrong';
 	const code = error.code;
-	if (code) message = getTextFromErrorCode(error.code as tErrorsCode);
+	if (code) message = getTextFromErrorCode(error.code as tErrorsCode, error.message);
 	response.status(status).send({
 		message,
 		status
