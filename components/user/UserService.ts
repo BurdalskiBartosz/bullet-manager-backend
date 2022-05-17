@@ -1,20 +1,19 @@
-import { Request } from 'express';
 import HttpException from '../../exceptions/httpException';
 import prisma from '../../prisma/prismaClient';
 import * as bcrypt from 'bcrypt';
-import { Service } from '../shared';
+import { Service, tLoginData, tRegistrationData } from '../shared';
 import TokenService from '../token/TokenServices';
 
 class UserService implements Service {
-	async login(req: Request) {
+	async login(data: tLoginData) {
 		const user = await prisma.user.findFirst({
 			where: {
 				OR: [
 					{
-						login: req.body.loginOrEmail
+						login: data.loginOrEmail
 					},
 					{
-						email: req.body.loginOrEmail
+						email: data.loginOrEmail
 					}
 				]
 			}
@@ -22,7 +21,7 @@ class UserService implements Service {
 
 		if (!user) throw new HttpException(404, 'Not found user with given data');
 
-		const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+		const isPasswordValid = await bcrypt.compare(data.password, user.password);
 		if (!isPasswordValid) throw new HttpException(404, 'Not found user with given data');
 
 		const tokenService = new TokenService();
@@ -34,13 +33,13 @@ class UserService implements Service {
 		};
 	}
 
-	async register(req: Request) {
+	async register(data: tRegistrationData) {
 		const salt = await bcrypt.genSalt();
-		const hashedPassword = await bcrypt.hash(req.body.password, salt);
+		const hashedPassword = await bcrypt.hash(data.password, salt);
 		await prisma.user.create({
 			data: {
-				login: req.body.login,
-				email: req.body.email,
+				login: data.login,
+				email: data.email,
 				password: hashedPassword
 			}
 		});

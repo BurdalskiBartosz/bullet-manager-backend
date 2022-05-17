@@ -11,15 +11,6 @@ export abstract class Controller {
 	}
 
 	abstract initializeRoutes(): void;
-
-	getData(req: Request) {
-		return {
-			query: req.query,
-			body: req.body,
-			params: req.params,
-			headers: req.headers
-		} as { [key: string]: object | string | undefined };
-	}
 }
 
 export abstract class Module {
@@ -29,3 +20,14 @@ export abstract class Module {
 export interface Service {
 	[x: string]: any;
 }
+
+export type tLoginData = {
+	loginOrEmail: string;
+	password: string;
+};
+
+export type tRegistrationData = {
+	login: string;
+	email: string;
+	password: string;
+};

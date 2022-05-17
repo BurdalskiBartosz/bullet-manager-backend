@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { async } from '../../helpers';
-import { tRequestWithUser } from '../../types';
-import { Controller } from '../shared';
+import { Controller, tLoginData, tRegistrationData } from '../shared';
 
 class UserController extends Controller {
 	public path: string = '/auth';
@@ -12,8 +11,8 @@ class UserController extends Controller {
 		this.router.post(`${this.path}/logout`, async(this.logout));
 	}
 
-	private login = async (req: tRequestWithUser, res: Response, next: NextFunction) => {
-		const data = this.getData(req);
+	private login = async (req: Request, res: Response) => {
+		const data: tLoginData = req.body;
 		const { user, token } = await this.service.login(data);
 
 		res.cookie('token', token, {
@@ -24,12 +23,13 @@ class UserController extends Controller {
 		res.send({ user }).status(200);
 	};
 
-	private register = async (req: Request, res: Response, next: NextFunction) => {
-		await this.service.register(req);
+	private register = async (req: Request, res: Response) => {
+		const data: tRegistrationData = req.body;
+		await this.service.register(data);
 		res.sendStatus(201);
 	};
 
-	private logout = (req: Request, res: Response, next: NextFunction) => {
+	private logout = (req: Request, res: Response) => {
 		res.clearCookie('token');
 		res.sendStatus(200);
 	};
