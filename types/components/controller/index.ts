@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { async } from '../../helpers';
-import { iClassGenericContructor } from '../../types/class';
+import { async } from '../../../helpers';
+import { iClassGenericContructor } from '../../class';
+import { Service } from '../service';
 
 export abstract class Controller {
 	abstract path: string;
@@ -13,8 +14,11 @@ export abstract class Controller {
 
 	abstract initializeRoutes(): void;
 }
+export type tEntity = 'user' | 'task' | 'comment' | 'tag' | 'token' | 'activity';
 
 export abstract class CRUDController extends Controller {
+	protected abstract entity: tEntity;
+
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, async(this.getOne));
 		this.router.get(`${this.path}`, async(this.getAll));
@@ -32,14 +36,6 @@ export abstract class CRUDController extends Controller {
 	protected abstract edit(req: Request, res: Response): void;
 
 	protected abstract delete(req: Request, res: Response): void;
-}
-
-export abstract class Module {
-	abstract init(): Object;
-}
-
-export interface Service {
-	[x: string]: any;
 }
 
 export type tLoginData = {
