@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from 'module';
 import TaskController from './TaskController';
 import TaskService from './TaskService';
 

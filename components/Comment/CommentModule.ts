@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from 'module';
 import CommentController from './CommentController';
 import CommentService from './CommentService';
 

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { async } from '../../helpers';
-import { Controller, tLoginData, tRegistrationData } from '../shared';
+import { Controller } from '../../types/components/controller/shared';
+import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 
 class UserController extends Controller {
 	public path: string = '/auth';
@@ -13,7 +14,7 @@ class UserController extends Controller {
 
 	private login = async (req: Request, res: Response) => {
 		const data: tLoginData = req.body;
-		const { user, token } = await this.service.login(data);
+		const { user, token } = await this.service.login(data, 'user');
 
 		res.cookie('token', token, {
 			maxAge: 24 * 60 * 60 * 1000 * 10,

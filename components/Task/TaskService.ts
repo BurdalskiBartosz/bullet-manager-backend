@@ -1,4 +1,4 @@
-import { Service } from '../shared';
+import { Service } from '../../types/components/service';
 
 class TaskService implements Service {
 	async getTask() {}

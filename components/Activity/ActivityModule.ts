@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from 'module';
 import ActivityController from './ActivityController';
 import ActivityService from './ActivityService';
 

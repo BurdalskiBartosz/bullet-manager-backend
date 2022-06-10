@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from 'module';
 import TagController from './TagController';
 import TagService from './TagService';
 

@@ -1,6 +1,6 @@
 import prisma from '../../prisma/prismaClient';
 import crypto from 'crypto';
-import { Service } from '../shared';
+import { Service } from '../../types/components/service';
 
 class TokenService implements Service {
 	async create(userId: any) {
