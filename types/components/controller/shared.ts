@@ -37,14 +37,3 @@ export abstract class CRUDController extends Controller {
 
 	protected abstract delete(req: Request, res: Response): void;
 }
-
-export type tLoginData = {
-	loginOrEmail: string;
-	password: string;
-};
-
-export type tRegistrationData = {
-	login: string;
-	email: string;
-	password: string;
-};
