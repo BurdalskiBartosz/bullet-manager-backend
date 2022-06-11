@@ -1,4 +1,4 @@
-import { Module } from 'module';
+import { Module } from '../../types/components/module';
 import TagController from './TagController';
 import TagService from './TagService';
 
