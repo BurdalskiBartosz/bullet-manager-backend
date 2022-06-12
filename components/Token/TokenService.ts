@@ -13,6 +13,15 @@ class TokenService implements Service {
 		});
 		return token;
 	}
+
+	async find(tokenValue: string) {
+		const token = await prisma.token.findUnique({
+			where: {
+				value: tokenValue
+			}
+		});
+		return token;
+	}
 }
 
 export default TokenService;

@@ -1,4 +1,4 @@
-export type HttpCode = 404 | 400 | 500;
+export type HttpCode = 400 | 401 | 404 | 500;
 export class HttpException extends Error {
 	public readonly httpCode: HttpCode;
 	public readonly code?: string;

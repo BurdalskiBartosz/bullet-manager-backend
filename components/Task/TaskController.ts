@@ -5,11 +5,6 @@ class TaskController extends CRUDController {
 	public path: string = '/task';
 	protected entity: tEntity = 'task';
 
-	protected getOne = async (req: Request, res: Response) => {
-		console.log('getOne');
-		res.send({ task: 'getOne' }).status(200);
-	};
-
 	protected getAll = async (req: Request, res: Response) => {
 		console.log('getAll');
 		res.send({ task: 'getAll' }).status(200);

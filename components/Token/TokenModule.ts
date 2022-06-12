@@ -1,4 +1,4 @@
-import { Module } from 'module';
+import { Module } from '../../types/components/module';
 import TokenController from './TokenController';
 import TokenService from './TokenService';
 

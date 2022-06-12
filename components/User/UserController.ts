@@ -7,6 +7,7 @@ class UserController extends Controller {
 	public path: string = '/auth';
 
 	initializeRoutes() {
+		this.router.get('me', async(this.me));
 		this.router.post(`${this.path}/login`, async(this.login));
 		this.router.post(`${this.path}/register`, async(this.register));
 		this.router.post(`${this.path}/logout`, async(this.logout));
@@ -33,6 +34,12 @@ class UserController extends Controller {
 	private logout = (req: Request, res: Response) => {
 		res.clearCookie('token');
 		res.sendStatus(200);
+	};
+
+	private me = async (req: Request, res: Response) => {
+		const tokenValue = req.cookies.token;
+		const user = await this.service.me(tokenValue);
+		return res.send({ user }).status(200);
 	};
 }
 

@@ -6,6 +6,10 @@ import { Service } from '../../types/components/service';
 import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 
 class UserService implements Service {
+	private tokenService: Service;
+	constructor() {
+		this.tokenService = new TokenService();
+	}
 	async login(data: tLoginData) {
 		const user = await prisma.user.findFirst({
 			where: {
@@ -25,8 +29,7 @@ class UserService implements Service {
 		const isPasswordValid = await bcrypt.compare(data.password, user.password);
 		if (!isPasswordValid) throw new HttpException(404, 'Not found user with given data');
 
-		const tokenService = new TokenService();
-		const token = await tokenService.create(user.id);
+		const token = await this.tokenService.create(user.id);
 		const { password, ...userData } = user;
 		return {
 			user: userData,
@@ -44,6 +47,24 @@ class UserService implements Service {
 				password: hashedPassword
 			}
 		});
+	}
+
+	async me(tokenValue: string) {
+		const token = await this.tokenService.find(tokenValue);
+
+		if (!token) throw new HttpException(401, 'Token dosent exist');
+
+		const user = await prisma.user.findUnique({
+			where: {
+				id: token.userId
+			},
+			select: {
+				id: true,
+				login: true,
+				email: true
+			}
+		});
+		return user;
 	}
 }
 
