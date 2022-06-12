@@ -8,13 +8,14 @@ generator client {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  login    String    @unique
-  email    String    @unique
-  password String
-  Token    Token[]
-  Tasks    Task[]
-  Comment  Comment[]
+  id           Int       @id @default(autoincrement())
+  login        String    @unique
+  email        String    @unique
+  password     String
+  token        Token[]
+  tasks        Task[]    @relation("AssignedTasks")
+  createdTasks Task[]    @relation("CreatedTasks")
+  comment      Comment[]
 }
 
 model Token {
@@ -26,29 +27,43 @@ model Token {
 
 model Task {
   id                Int        @id @default(autoincrement())
-  User              User?      @relation(fields: [userId], references: [id])
-  userId            Int?
-  title             String
-  description       String
+  createdAt         DateTime   @default(now())
   date              DateTime
   plannedFinishDate DateTime
+  user              User       @relation("AssignedTasks", fields: [userId], references: [id])
+  userId            Int
+  createdBy         User       @relation("CreatedTasks", fields: [createdById], references: [id])
+  createdById       Int
+  title             String
+  description       String
   priority          Int
   inProgressTime    Int
   activities        Activity[]
   comments          Comment[]
   tags              Tag[]
+  subtasks          Subtask[]  @relation("Task")
+  subtask           Subtask?   @relation("Data")
+}
+
+model Subtask {
+  id     Int  @id @default(autoincrement())
+  order  Int
+  task   Task @relation("Task", fields: [taskId], references: [id])
+  taskId Int
+  data   Task @relation("Data", fields: [dataId], references: [id])
+  dataId Int
 }
 
 model Activity {
   id     Int    @id @default(autoincrement())
-  Task   Task?  @relation(fields: [taskId], references: [id])
+  task   Task?  @relation(fields: [taskId], references: [id])
   taskId Int?
   type   String
 }
 
 model Comment {
   id      Int      @id @default(autoincrement())
-  Task    Task?    @relation(fields: [taskId], references: [id])
+  task    Task?    @relation(fields: [taskId], references: [id])
   taskId  Int?
   date    DateTime
   user    User     @relation(fields: [userId], references: [id])
@@ -59,6 +74,6 @@ model Comment {
 model Tag {
   id     Int    @id @default(autoincrement())
   value  String
-  Task   Task?  @relation(fields: [taskId], references: [id])
+  task   Task?  @relation(fields: [taskId], references: [id])
   taskId Int?
 }
