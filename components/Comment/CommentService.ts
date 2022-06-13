@@ -1,5 +1,17 @@
-import { Service } from '../../types/components/service';
+import { tEntity } from '../../types/components/controller/shared';
+import { CRUDService } from '../../types/components/service';
 
-class CommentService implements Service {}
+class CommentService extends CRUDService {
+	protected entity: tEntity = 'comment';
+	async getAll() {
+		return 'Działam';
+	}
+
+	async create() {}
+
+	async edit() {}
+
+	async delete() {}
+}
 
 export default CommentService;

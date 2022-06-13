@@ -3,12 +3,6 @@ import { CRUDController, tEntity } from '../../types/components/controller/share
 
 class ActivityController extends CRUDController {
 	public path: string = '/activity';
-	protected entity: tEntity = 'activity';
-
-	protected getOne = async (req: Request, res: Response) => {
-		console.log('getOne');
-		res.send({ activity: 'getOne' }).status(200);
-	};
 
 	protected getAll = async (req: Request, res: Response) => {
 		console.log('getAll');

@@ -2,14 +2,14 @@ import { Request, Response, Router } from 'express';
 import { async } from '../../../helpers';
 import { authMiddleware } from '../../../middleware';
 import { iClassGenericContructor } from '../../class';
-import { Service } from '../service';
+import { CRUDService, Service } from '../service';
 
 export abstract class Controller {
 	abstract path: string;
 	public service: Service;
 	public router = Router();
 
-	constructor(Service: iClassGenericContructor<Service>) {
+	constructor(Service: iClassGenericContructor<Service | CRUDService>) {
 		this.service = new Service();
 	}
 
@@ -18,8 +18,6 @@ export abstract class Controller {
 export type tEntity = 'user' | 'task' | 'comment' | 'tag' | 'token' | 'activity';
 
 export abstract class CRUDController extends Controller {
-	protected abstract entity: tEntity;
-
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, authMiddleware, async(this.getOne));
 		this.router.get(`${this.path}`, async(this.getAll));
@@ -28,11 +26,9 @@ export abstract class CRUDController extends Controller {
 		this.router.delete(`${this.path}/:id`, async(this.delete));
 	}
 
-	protected getOne = async (req: Request, res: Response) => {
+	private getOne = async (req: Request, res: Response) => {
 		const id = +req.params.id;
-		console.log(req.cookies.token);
-		const cookieToken = req.cookies.token;
-		const data = await this.service.getOne(id, this.entity);
+		const data = await this.service.getOne(id);
 		res.send({ data }).status(200);
 	};
 

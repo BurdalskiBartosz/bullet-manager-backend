@@ -3,7 +3,6 @@ import { CRUDController, tEntity } from '../../types/components/controller/share
 
 class TaskController extends CRUDController {
 	public path: string = '/task';
-	protected entity: tEntity = 'task';
 
 	protected getAll = async (req: Request, res: Response) => {
 		console.log('getAll');

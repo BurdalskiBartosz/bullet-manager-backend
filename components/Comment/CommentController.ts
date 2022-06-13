@@ -3,12 +3,6 @@ import { CRUDController, tEntity } from '../../types/components/controller/share
 
 class CommentController extends CRUDController {
 	public path: string = '/comment';
-	protected entity: tEntity = 'comment';
-
-	protected getOne = async (req: Request, res: Response) => {
-		console.log('getOne');
-		res.send({ comment: 'getOne' }).status(200);
-	};
 
 	protected getAll = async (req: Request, res: Response) => {
 		console.log('getAll');

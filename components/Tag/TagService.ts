@@ -1,5 +1,17 @@
-import { Service } from '../../types/components/service';
+import { tEntity } from '../../types/components/controller/shared';
+import { CRUDService } from '../../types/components/service';
 
-class TagService implements Service {}
+class TagService extends CRUDService {
+	protected entity: tEntity = 'tag';
+	async getAll() {
+		return 'Działam';
+	}
+
+	async create() {}
+
+	async edit() {}
+
+	async delete() {}
+}
 
 export default TagService;

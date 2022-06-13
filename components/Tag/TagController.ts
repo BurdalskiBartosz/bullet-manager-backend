@@ -3,12 +3,6 @@ import { CRUDController, tEntity } from '../../types/components/controller/share
 
 class TagController extends CRUDController {
 	public path: string = '/tag';
-	protected entity: tEntity = 'tag';
-
-	protected getOne = async (req: Request, res: Response) => {
-		console.log('getOne');
-		res.send({ tag: 'getOne' }).status(200);
-	};
 
 	protected getAll = async (req: Request, res: Response) => {
 		console.log('getAll');
