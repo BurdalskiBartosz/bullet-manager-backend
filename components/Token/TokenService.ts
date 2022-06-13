@@ -18,8 +18,12 @@ class TokenService implements Service {
 		const token = await prisma.token.findUnique({
 			where: {
 				value: tokenValue
+			},
+			include: {
+				user: true
 			}
 		});
+
 		return token;
 	}
 }

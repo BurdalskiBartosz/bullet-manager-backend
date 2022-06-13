@@ -1,11 +1,17 @@
 import { NextFunction, Response } from 'express';
 import { tRequestWithUser } from '../../types';
-import UserService from '../../components/User/UserService';
+import TokenService from '../../components/Token/TokenService';
+import HttpException from '../../exceptions/httpException';
 
 export default async (req: tRequestWithUser, res: Response, next: NextFunction) => {
 	const tokenValue = req.cookies.token;
-	const userService = new UserService();
-	const user = await userService.me(tokenValue);
-	console.log(user);
-	next();
+	const tokenService = new TokenService();
+	try {
+		const token = await tokenService.find(tokenValue);
+		if (!token) throw new HttpException(401, 'Cannot find user');
+		req.user = token.user;
+		next();
+	} catch (err) {
+		next(err);
+	}
 };

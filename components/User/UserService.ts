@@ -48,24 +48,6 @@ class UserService implements Service {
 			}
 		});
 	}
-
-	async me(tokenValue: string) {
-		const token = await this.tokenService.find(tokenValue);
-
-		if (!token) throw new HttpException(401, 'Token dosent exist');
-
-		const user = await prisma.user.findUnique({
-			where: {
-				id: token.userId
-			},
-			select: {
-				id: true,
-				login: true,
-				email: true
-			}
-		});
-		return user;
-	}
 }
 
 export default UserService;

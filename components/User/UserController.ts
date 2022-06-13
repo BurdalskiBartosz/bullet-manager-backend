@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { async } from '../../helpers';
+import { authMiddleware } from '../../middleware';
+import { tRequestWithUser } from '../../types';
 import { Controller } from '../../types/components/controller/shared';
 import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 
@@ -7,7 +9,7 @@ class UserController extends Controller {
 	public path: string = '/auth';
 
 	initializeRoutes() {
-		this.router.get('me', async(this.me));
+		this.router.get('/me', authMiddleware, async(this.me));
 		this.router.post(`${this.path}/login`, async(this.login));
 		this.router.post(`${this.path}/register`, async(this.register));
 		this.router.post(`${this.path}/logout`, async(this.logout));
@@ -36,9 +38,8 @@ class UserController extends Controller {
 		res.sendStatus(200);
 	};
 
-	private me = async (req: Request, res: Response) => {
-		const tokenValue = req.cookies.token;
-		const user = await this.service.me(tokenValue);
+	private me = async (req: tRequestWithUser, res: Response) => {
+		const user = req.user;
 		return res.send({ user }).status(200);
 	};
 }
