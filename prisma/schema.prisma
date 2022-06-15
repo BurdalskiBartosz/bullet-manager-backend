@@ -42,16 +42,16 @@ model Task {
   comments          Comment[]
   tags              Tag[]
   subtasks          Subtask[]  @relation("Task")
-  subtask           Subtask?   @relation("Data")
+  dataId            Int?
+  data              Subtask?   @relation("Data", fields: [dataId], references: [id])
 }
 
 model Subtask {
-  id     Int  @id @default(autoincrement())
-  order  Int
-  task   Task @relation("Task", fields: [taskId], references: [id])
-  taskId Int
-  data   Task @relation("Data", fields: [dataId], references: [id])
-  dataId Int
+  id          Int   @id @default(autoincrement())
+  order       Int
+  subtaskOf   Task  @relation("Task", fields: [subtaskOfId], references: [id])
+  subtaskOfId Int
+  taskData    Task? @relation("Data")
 }
 
 model Activity {
