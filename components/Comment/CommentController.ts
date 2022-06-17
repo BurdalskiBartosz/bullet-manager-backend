@@ -1,13 +1,8 @@
 import { Request, Response } from 'express';
 import { CRUDController, tEntity } from '../../types/components/controller/shared';
 
-class CommentController extends CRUDController {
+class CommentController {
 	public path: string = '/comment';
-
-	protected getAll = async (req: Request, res: Response) => {
-		console.log('getAll');
-		res.send({ comment: 'getAll' }).status(200);
-	};
 
 	protected create = async (req: Request, res: Response) => {
 		console.log('create');

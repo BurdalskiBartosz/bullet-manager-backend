@@ -1,13 +1,8 @@
 import { Request, Response } from 'express';
 import { CRUDController, tEntity } from '../../types/components/controller/shared';
 
-class ActivityController extends CRUDController {
+class ActivityController {
 	public path: string = '/activity';
-
-	protected getAll = async (req: Request, res: Response) => {
-		console.log('getAll');
-		res.send({ activity: 'getAll' }).status(200);
-	};
 
 	protected create = async (req: Request, res: Response) => {
 		console.log('create');

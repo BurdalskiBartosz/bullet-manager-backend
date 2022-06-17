@@ -1,12 +1,22 @@
 import { Request, Response } from 'express';
-import { CRUDController, tEntity } from '../../types/components/controller/shared';
+import { tRequestWithUser } from '../../types';
+import { CRUDController } from '../../types/components/controller/shared';
 
 class TaskController extends CRUDController {
 	public path: string = '/task';
 
-	protected getAll = async (req: Request, res: Response) => {
-		console.log('getAll');
-		res.send({ task: 'getAll' }).status(200);
+	protected getOne = async (req: Request, res: Response) => {
+		const id = +req.params.id;
+		console.log(req.query.relations);
+		const data = await this.service.getOne(id);
+		res.send({ data }).status(200);
+	};
+
+	protected getAll = async (req: tRequestWithUser, res: Response) => {
+		const userId = req.user?.id;
+		console.log(userId);
+		const data = await this.service.getAll(userId);
+		res.send({ data }).status(200);
 	};
 
 	protected create = async (req: Request, res: Response) => {

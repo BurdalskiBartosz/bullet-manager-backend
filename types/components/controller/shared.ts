@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { tRequestWithUser } from '../..';
 import { async } from '../../../helpers';
 import { authMiddleware } from '../../../middleware';
 import { iClassGenericContructor } from '../../class';
@@ -20,19 +21,15 @@ export type tEntity = 'user' | 'task' | 'comment' | 'tag' | 'token' | 'activity'
 export abstract class CRUDController extends Controller {
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, authMiddleware, async(this.getOne));
-		this.router.get(`${this.path}`, async(this.getAll));
+		this.router.get(`${this.path}`, authMiddleware, async(this.getAll));
 		this.router.post(`${this.path}`, async(this.create));
 		this.router.patch(`${this.path}/:id`, async(this.edit));
 		this.router.delete(`${this.path}/:id`, async(this.delete));
 	}
 
-	private getOne = async (req: Request, res: Response) => {
-		const id = +req.params.id;
-		const data = await this.service.getOne(id);
-		res.send({ data }).status(200);
-	};
+	protected abstract getOne(req: Request, res: Response): void;
 
-	protected abstract getAll(req: Request, res: Response): void;
+	protected abstract getAll(req: tRequestWithUser, res: Response): void;
 
 	protected abstract create(req: Request, res: Response): void;
 

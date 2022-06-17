@@ -1,11 +1,10 @@
+import prisma from '../../prisma/prismaClient';
 import { tEntity } from '../../types/components/controller/shared';
-import { CRUDService } from '../../types/components/service';
+import { CRUDService, tEntityMethods } from '../../types/components/service';
 
 class CommentService extends CRUDService {
 	protected entity: tEntity = 'comment';
-	async getAll() {
-		return 'Działam';
-	}
+	protected model: tEntityMethods = prisma[this.entity];
 
 	async create() {}
 
