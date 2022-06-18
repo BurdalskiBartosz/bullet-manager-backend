@@ -43,6 +43,30 @@ class TaskService extends CRUDService {
 
 	async create() {}
 
+	createSubtask = async () => {
+		const elements = await prisma.subtask.create({
+			data: {
+				order: 1,
+				subtaskOfId: 1,
+				taskData: {
+					create: {
+						userId: 1,
+						title: 'SUBTASK DO TASKA O ID 1',
+						description: 'SUBTASK DO TASKA O ID 1',
+						date: new Date(),
+						plannedFinishDate: new Date(),
+						priority: 2,
+						inProgressTime: 1989281,
+						createdById: 1
+					}
+				}
+			}
+		});
+		console.log(elements);
+		console.log('elements');
+		return elements;
+	};
+
 	async edit() {}
 
 	async delete() {}
