@@ -17,55 +17,15 @@ class TaskService extends CRUDService {
 						login: true,
 						email: true
 					}
-				},
-				subtasks: {
-					select: {
-						taskData: true
-					}
 				}
 			}
 		});
 		return element;
 	};
 
-	getAll = async (id: number) => {
-		const elements = await this.model.findMany({
-			where: {
-				userId: id,
-				dataId: null
-			},
-			include: {
-				data: true
-			}
-		});
-		return elements;
-	};
+	getAll = async (id: number) => {};
 
 	async create() {}
-
-	createSubtask = async () => {
-		const elements = await prisma.subtask.create({
-			data: {
-				order: 1,
-				subtaskOfId: 1,
-				taskData: {
-					create: {
-						userId: 1,
-						title: 'SUBTASK DO TASKA O ID 1',
-						description: 'SUBTASK DO TASKA O ID 1',
-						date: new Date(),
-						plannedFinishDate: new Date(),
-						priority: 2,
-						inProgressTime: 1989281,
-						createdById: 1
-					}
-				}
-			}
-		});
-		console.log(elements);
-		console.log('elements');
-		return elements;
-	};
 
 	async edit() {}
 

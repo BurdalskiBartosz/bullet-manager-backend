@@ -38,20 +38,10 @@ model Task {
   description       String
   priority          Int
   inProgressTime    Int
+  order             Int
   activities        Activity[]
   comments          Comment[]
   tags              Tag[]
-  subtasks          Subtask[]  @relation("Task")
-  dataId            Int?
-  data              Subtask?   @relation("Data", fields: [dataId], references: [id])
-}
-
-model Subtask {
-  id          Int   @id @default(autoincrement())
-  order       Int
-  subtaskOf   Task  @relation("Task", fields: [subtaskOfId], references: [id])
-  subtaskOfId Int
-  taskData    Task? @relation("Data")
 }
 
 model Activity {

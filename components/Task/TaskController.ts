@@ -21,7 +21,8 @@ class TaskController extends CRUDController {
 
 	protected create = async (req: Request, res: Response) => {
 		console.log('create');
-		res.send({ task: 'create' }).status(200);
+		const data = await this.service.create();
+		res.send({ data }).status(200);
 	};
 
 	protected edit = async (req: Request, res: Response) => {
