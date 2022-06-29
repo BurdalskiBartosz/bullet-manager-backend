@@ -23,9 +23,29 @@ class TaskService extends CRUDService {
 		return element;
 	};
 
-	getAll = async (id: number) => {};
+	getAll = async (id: number) => {
+		const elements = await this.model.findMany({
+			where: {
+				userId: id
+			}
+		});
+		return elements;
+	};
 
-	async create() {}
+	create = async (data: any) => {
+		const task = await this.model.create({
+			data: {
+				title: data.title,
+				description: data.description,
+				plannedFinishDate: new Date(data.plannedFinishDate),
+				createdBy: data.createdBy,
+				priority: +data.priority,
+				user: data.userId
+			}
+		});
+		console.log(task);
+		return task;
+	};
 
 	async edit() {}
 

@@ -37,8 +37,7 @@ model Task {
   title             String
   description       String
   priority          Int
-  inProgressTime    Int
-  order             Int
+  inProgressTime    Int?
   activities        Activity[]
   comments          Comment[]
   tags              Tag[]

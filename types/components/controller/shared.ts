@@ -22,7 +22,7 @@ export abstract class CRUDController extends Controller {
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, authMiddleware, async(this.getOne));
 		this.router.get(`${this.path}`, authMiddleware, async(this.getAll));
-		this.router.post(`${this.path}`, async(this.create));
+		this.router.post(`${this.path}`, authMiddleware, async(this.create));
 		this.router.patch(`${this.path}/:id`, async(this.edit));
 		this.router.delete(`${this.path}/:id`, async(this.delete));
 	}
