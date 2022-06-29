@@ -24,7 +24,6 @@ class TaskController extends CRUDController {
 			createdBy: req.user?.id
 		};
 		const data = await this.service.create(createData);
-		console.log(data);
 		res.send({ data }).status(200);
 	};
 

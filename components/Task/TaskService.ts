@@ -27,6 +27,20 @@ class TaskService extends CRUDService {
 		const elements = await this.model.findMany({
 			where: {
 				userId: id
+			},
+			include: {
+				user: {
+					select: {
+						login: true,
+						email: true
+					}
+				},
+				createdBy: {
+					select: {
+						login: true,
+						email: true
+					}
+				}
 			}
 		});
 		return elements;
@@ -35,15 +49,14 @@ class TaskService extends CRUDService {
 	create = async (data: any) => {
 		const task = await this.model.create({
 			data: {
+				userId: +data.user,
 				title: data.title,
 				description: data.description,
 				plannedFinishDate: new Date(data.plannedFinishDate),
-				createdBy: data.createdBy,
-				priority: +data.priority,
-				user: data.userId
+				createdById: data.createdBy,
+				priority: +data.priority
 			}
 		});
-		console.log(task);
 		return task;
 	};
 
