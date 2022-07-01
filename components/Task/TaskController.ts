@@ -15,7 +15,7 @@ class TaskController extends CRUDController {
 	protected getAll = async (req: tRequestWithUser, res: Response) => {
 		const userId = req.user?.id;
 		const data = await this.service.getAll(userId);
-		res.send({ data }).status(200);
+		res.send(data).status(200);
 	};
 
 	protected create = async (req: tRequestWithUser, res: Response) => {
