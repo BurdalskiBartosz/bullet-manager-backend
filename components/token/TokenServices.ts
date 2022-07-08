@@ -1,6 +1,6 @@
 import prisma from '../../prisma/prismaClient';
 import crypto from 'crypto';
-import { Service } from '../shared';
+import { Service } from '../../types/components/service';
 
 class TokenService implements Service {
 	async create(userId: any) {
@@ -11,6 +11,19 @@ class TokenService implements Service {
 				value: token
 			}
 		});
+		return token;
+	}
+
+	async find(tokenValue: string) {
+		const token = await prisma.token.findUnique({
+			where: {
+				value: tokenValue
+			},
+			include: {
+				user: true
+			}
+		});
+
 		return token;
 	}
 }

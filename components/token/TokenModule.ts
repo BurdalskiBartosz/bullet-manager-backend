@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from '../../types/components/module';
 import TokenController from './TokenController';
 import TokenService from './TokenServices';
 

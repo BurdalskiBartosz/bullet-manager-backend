@@ -1,14 +1,17 @@
-import * as jwt from 'jsonwebtoken';
-
 import { NextFunction, Response } from 'express';
 import { tRequestWithUser } from '../../types';
+import HttpException from '../../exceptions/httpException';
+import TokenService from '../../components/token/TokenServices';
 
-export default (req: tRequestWithUser, res: Response, next: NextFunction) => {
-	const token = req.cookies.JWT;
-	if (token === null) return res.sendStatus(401);
-	jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-		if (err) return res.status(403).json({ alias: 'TOKEN_EXPIRED' });
-		req.user = user;
+export default async (req: tRequestWithUser, res: Response, next: NextFunction) => {
+	const tokenValue = req.cookies.token;
+	const tokenService = new TokenService();
+	try {
+		const token = await tokenService.find(tokenValue);
+		if (!token) throw new HttpException(401, 'Cannot find user');
+		req.user = token.user;
 		next();
-	});
+	} catch (err) {
+		next(err);
+	}
 };

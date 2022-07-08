@@ -1,4 +1,4 @@
-import { Module } from '../shared';
+import { Module } from '../../types/components/module';
 import UserController from './UserController';
 import UserService from './UserService';
 
