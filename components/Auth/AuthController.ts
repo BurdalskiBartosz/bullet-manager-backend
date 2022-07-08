@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { async } from '../../helpers';
-import { Controller, tLoginData, tRegistrationData } from '../shared';
+import { Controller } from '../../types/components/controller/shared';
+import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 
 class AuthController extends Controller {
 	public path: string = '/auth';

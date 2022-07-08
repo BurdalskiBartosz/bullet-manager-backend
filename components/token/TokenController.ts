@@ -1,4 +1,4 @@
-import { Controller } from '../shared';
+import { Controller } from '../../types/components/controller/shared';
 
 class TokenController extends Controller {
 	public path: string = '/token';
