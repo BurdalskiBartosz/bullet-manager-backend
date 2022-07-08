@@ -1,49 +1,30 @@
-import HttpException from '../../exceptions/httpException';
+import { CRUDService, tEntityMethods } from '../../types/components/service';
+import { tEntity } from '../../types/components/controller/shared';
 import prisma from '../../prisma/prismaClient';
-import * as bcrypt from 'bcrypt';
-import { Service, tLoginData, tRegistrationData } from '../shared';
-import TokenService from '../token/TokenServices';
 
-class UserService implements Service {
-	async login(data: tLoginData) {
-		const user = await prisma.user.findFirst({
+class UserService extends CRUDService {
+	protected entity: tEntity = 'user';
+	protected model: tEntityMethods = prisma[this.entity];
+
+	getOne = async (id: number) => {
+		const element = await this.model.findUnique({
 			where: {
-				OR: [
-					{
-						login: data.loginOrEmail
-					},
-					{
-						email: data.loginOrEmail
-					}
-				]
+				id: id
 			}
 		});
+		return element;
+	};
 
-		if (!user) throw new HttpException(404, 'Not found user with given data');
+	getAll = async () => {
+		const elements = await this.model.findMany({});
+		return elements;
+	};
 
-		const isPasswordValid = await bcrypt.compare(data.password, user.password);
-		if (!isPasswordValid) throw new HttpException(404, 'Not found user with given data');
+	create = async () => {};
 
-		const tokenService = new TokenService();
-		const token = await tokenService.create(user.id);
-		const { password, ...userData } = user;
-		return {
-			user: userData,
-			token
-		};
-	}
+	edit = async () => {};
 
-	async register(data: tRegistrationData) {
-		const salt = await bcrypt.genSalt();
-		const hashedPassword = await bcrypt.hash(data.password, salt);
-		await prisma.user.create({
-			data: {
-				login: data.login,
-				email: data.email,
-				password: hashedPassword
-			}
-		});
-	}
+	delete = async () => {};
 }
 
 export default UserService;

@@ -1,3 +1,5 @@
+import { tEntity } from '../controller/shared';
+
 export interface Service {
 	[x: string]: any;
 }
@@ -16,3 +18,18 @@ export type tEntityMethods = {
 	aggregate: Function;
 	groupBy: Function;
 };
+
+export abstract class CRUDService {
+	protected abstract entity: tEntity;
+	protected abstract model: tEntityMethods;
+
+	protected abstract getOne(id: number): void;
+
+	protected abstract getAll(id: number): void;
+
+	protected abstract create(): void;
+
+	protected abstract edit(): void;
+
+	protected abstract delete(): void;
+}
