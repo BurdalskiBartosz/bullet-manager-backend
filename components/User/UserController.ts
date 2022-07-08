@@ -1,41 +1,34 @@
 import { Request, Response } from 'express';
-import { async } from '../../helpers';
-import { authMiddleware } from '../../middleware';
 import { tRequestWithUser } from '../../types';
-import { Controller } from '../../types/components/controller/shared';
-import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
+import { CRUDController } from '../../types/components/controller/shared';
 
-class UserController extends Controller {
-	public path: string = '/auth';
+class UserController extends CRUDController {
+	public path: string = '/user';
 
-	initializeRoutes() {
-		this.router.get('/me', authMiddleware, async(this.me));
-		this.router.post(`${this.path}/login`, async(this.login));
-		this.router.post(`${this.path}/register`, async(this.register));
-		this.router.post(`${this.path}/logout`, async(this.logout));
-	}
-
-	private login = async (req: Request, res: Response) => {
-		const data: tLoginData = req.body;
-		const { user, token } = await this.service.login(data, 'user');
-
-		res.cookie('token', token, {
-			maxAge: 24 * 60 * 60 * 1000 * 10,
-			httpOnly: true,
-			secure: false
-		});
-		res.send({ user }).status(200);
+	protected getOne = async (req: Request, res: Response) => {
+		const id = +req.params.id;
+		const data = await this.service.getOne(id);
+		res.send({ data }).status(200);
 	};
 
-	private register = async (req: Request, res: Response) => {
-		const data: tRegistrationData = req.body;
-		await this.service.register(data);
-		res.sendStatus(201);
+	protected getAll = async (req: tRequestWithUser, res: Response) => {
+		const userId = req.user?.id;
+		const data = await this.service.getAll(userId);
+		res.send(data).status(200);
 	};
 
-	private logout = (req: Request, res: Response) => {
-		res.clearCookie('token');
-		res.sendStatus(200);
+	protected create = async (req: tRequestWithUser, res: Response) => {
+		res.send({ user: 'create' }).status(200);
+	};
+
+	protected edit = async (req: Request, res: Response) => {
+		console.log('edit');
+		res.send({ user: 'edit' }).status(200);
+	};
+
+	protected delete = async (req: Request, res: Response) => {
+		console.log('delete');
+		res.send({ user: 'delete' }).status(200);
 	};
 
 	private me = async (req: tRequestWithUser, res: Response) => {
