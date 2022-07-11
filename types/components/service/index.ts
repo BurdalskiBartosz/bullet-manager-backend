@@ -27,7 +27,7 @@ export abstract class CRUDService {
 
 	protected abstract getAll(id: number): void;
 
-	protected abstract create(): void;
+	protected abstract create(data: any): void;
 
 	protected abstract edit(): void;
 

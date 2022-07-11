@@ -1,6 +1,6 @@
 import { Module } from '../../types/components/module';
 import TokenController from './TokenController';
-import TokenService from './TokenServices';
+import TokenService from './TokenService';
 
 class TokenModule extends Module {
 	init() {

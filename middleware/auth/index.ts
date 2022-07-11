@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { tRequestWithUser } from '../../types';
+import TokenService from '../../components/Token/TokenService';
 import HttpException from '../../exceptions/httpException';
-import TokenService from '../../components/token/TokenServices';
 
 export default async (req: tRequestWithUser, res: Response, next: NextFunction) => {
 	const tokenValue = req.cookies.token;

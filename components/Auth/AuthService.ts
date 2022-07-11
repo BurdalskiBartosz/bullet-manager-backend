@@ -1,9 +1,9 @@
 import HttpException from '../../exceptions/httpException';
 import prisma from '../../prisma/prismaClient';
 import * as bcrypt from 'bcrypt';
-import TokenService from '../token/TokenServices';
 import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 import { Service } from '../../types/components/service';
+import TokenService from '../Token/TokenService';
 
 class AuthService implements Service {
 	async login(data: tLoginData) {
