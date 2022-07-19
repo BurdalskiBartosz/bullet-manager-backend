@@ -6,6 +6,8 @@ Frontend appliaction you can find [here](https://github.com/BurdalskiBartosz/bul
 
 An application that I am writing as part of self-development, the assumption of which is to create a system in which users will be able to create accounts together with the choice of a plan. In the basic plan, the application will be a kind of ToDo application, but a bit extensive. In the highest plan, it is supposed to be a project manager like asana or in the future jira.
 
+//TODO write a description of the architecture
+
 ## Technologies
 
 Some of the technologies used from which the project is created:
