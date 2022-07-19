@@ -1,6 +1,6 @@
 # Backend of Bullet Manager application
 
-Frontend appliaction you can find [here](https://github.com/BurdalskiBartosz/bullet-manager-frontend).
+Frontend appliaction you can find [here](https://github.com/BurdalskiBartosz/bullet-manager-front).
 
 ## Description
 
