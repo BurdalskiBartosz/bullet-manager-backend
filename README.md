@@ -2,6 +2,13 @@
 
 Frontend appliaction you can find [here](https://github.com/BurdalskiBartosz/bullet-manager-front).
 
+## Table of contents
+* [Description](#description)
+* [Technologies](#technologies)
+* [Workflow](#workflow)
+* [Assumptions to be met by the application](#assumptions-to-be-met-by-the-application)
+* [Plans for the near future](#plans-for-the-near-future)
+
 ## Description
 
 An application that I am writing as part of self-development, the assumption of which is to create a system in which users will be able to create accounts together with the choice of a plan. In the basic plan, the application will be a kind of ToDo application, but a bit extensive. In the highest plan, it is supposed to be a project manager like asana or in the future jira.
@@ -99,3 +106,8 @@ The version is priced individually, the price is not lower than PLN x per user. 
 - project planning,
 - project view,
 - priorities
+
+
+## Plans for the near future:
+
+- CRUDController and CRUDService refactor as far as I can
