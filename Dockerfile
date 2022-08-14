@@ -12,4 +12,4 @@ RUN npm i -g nodemon
 
 COPY . .
 
-CMD [ "nodemon", "-L", "./bin/www.ts" ]
+CMD npm start

@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-	"pre:start": "prisma migrate deploy",
-    "start": "ts-node-dev ./bin/www.ts "
+    "start": "prisma migrate deploy && nodemon -L ./bin/www.ts "
   },
   "dependencies": {
     "@prisma/client": "^3.1.1",
