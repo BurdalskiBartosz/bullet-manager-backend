@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "ts-node-dev ./bin/www.ts"
+	"pre:start": "prisma migrate deploy",
+    "start": "ts-node-dev ./bin/www.ts "
   },
   "dependencies": {
     "@prisma/client": "^3.1.1",
@@ -38,7 +39,7 @@
     "prisma": "^3.1.1",
     "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.4.3"
+    "typescript": "4.4.3"
   },
   "main": "index.js",
   "keywords": [],
