@@ -12,12 +12,17 @@ services:
       - '3306:3306'
   back:
     build: .
+    restart: always
     ports:
       - 3001:3001
-    depends_on:
-      - db
     volumes:
       - ./components:/usr/src/app/components
-    restart: always
-    stdin_open: true
+      - ./exceptions:/usr/src/app/exceptions
+      - ./helpers:/usr/src/app/helpers
+      - ./middleware:/usr/src/app/middleware
+      - ./prisma:/usr/src/app/prisma
+      - ./utils:/usr/src/app/utils
+    depends_on:
+      - db
     tty: true
+    stdin_open: true
