@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bullet-manager
+    ports:
+      - '3306:3306'
+  back:
+    build: .
+    restart: always
+    ports:
+      - 3001:3001
+    volumes:
+      - ./components:/usr/src/app/components
+      - ./exceptions:/usr/src/app/exceptions
+      - ./helpers:/usr/src/app/helpers
+      - ./middleware:/usr/src/app/middleware
+      - ./prisma:/usr/src/app/prisma
+      - ./utils:/usr/src/app/utils
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true

@@ -65,3 +65,7 @@ model Tag {
   task   Task?  @relation(fields: [taskId], references: [id])
   taskId Int?
 }
+
+model Note {
+  id Int @id @default(autoincrement())
+}
