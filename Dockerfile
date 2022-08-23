@@ -8,8 +8,8 @@ COPY prisma ./prisma/
 
 RUN npm install
 
-RUN npm i -g nodemon
-
 COPY . .
+
+RUN npm i -g nodemon
 
 CMD npm start
