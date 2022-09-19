@@ -16,7 +16,14 @@ export abstract class Controller {
 
 	abstract initializeRoutes(): void;
 }
-export type tEntity = 'user' | 'task' | 'comment' | 'tag' | 'token' | 'activity';
+export type tEntity =
+	| 'user'
+	| 'userTask'
+	| 'projectTask'
+	| 'comment'
+	| 'tag'
+	| 'token'
+	| 'activity';
 
 export abstract class CRUDController extends Controller {
 	initializeRoutes() {
