@@ -4,7 +4,7 @@ import { CRUDService, tEntityMethods } from '../../types/components/service';
 
 class UserTaskService extends CRUDService {
 	protected entity: tEntity = 'userTask';
-	protected model: tEntityMethods = prisma['userTask'];
+	protected model: tEntityMethods = prisma[this.entity];
 
 	getOne = async (id: number) => {
 		const element = await this.model.findUnique({
@@ -12,10 +12,9 @@ class UserTaskService extends CRUDService {
 				id: id
 			},
 			include: {
-				user: {
+				category: {
 					select: {
-						login: true,
-						email: true
+						name: true
 					}
 				}
 			}
@@ -29,16 +28,9 @@ class UserTaskService extends CRUDService {
 				userId: id
 			},
 			include: {
-				user: {
+				category: {
 					select: {
-						login: true,
-						email: true
-					}
-				},
-				createdBy: {
-					select: {
-						login: true,
-						email: true
+						name: true
 					}
 				}
 			}
@@ -47,14 +39,14 @@ class UserTaskService extends CRUDService {
 	};
 
 	create = async (data: any) => {
+		console.log(data);
 		const task = await this.model.create({
 			data: {
-				userId: +data.user,
+				userId: data.userId,
 				title: data.title,
 				description: data.description,
 				plannedFinishDate: new Date(data.plannedFinishDate),
-				createdById: data.createdBy,
-				priority: +data.priority
+				categoryId: data.category
 			}
 		});
 		return task;

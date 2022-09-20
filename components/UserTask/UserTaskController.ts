@@ -7,9 +7,8 @@ class UserTaskController extends CRUDController {
 
 	protected getOne = async (req: Request, res: Response) => {
 		const id = +req.params.id;
-		console.log(req.query.relations);
-		const data = await this.service.getOne(id);
-		res.send({ data }).status(200);
+		console.log(id);
+		res.send({ data: 'getOne' }).status(200);
 	};
 
 	protected getAll = async (req: tRequestWithUser, res: Response) => {
@@ -19,21 +18,19 @@ class UserTaskController extends CRUDController {
 	};
 
 	protected create = async (req: tRequestWithUser, res: Response) => {
+		console.log(req.body);
 		const createData = {
 			...req.body,
-			createdBy: req.user?.id
+			userId: req.user?.id
 		};
 		const data = await this.service.create(createData);
 		res.send({ data }).status(200);
 	};
-
 	protected edit = async (req: Request, res: Response) => {
-		console.log('edit');
 		res.send({ task: 'edit' }).status(200);
 	};
 
 	protected delete = async (req: Request, res: Response) => {
-		console.log('delete');
 		res.send({ task: 'delete' }).status(200);
 	};
 }
