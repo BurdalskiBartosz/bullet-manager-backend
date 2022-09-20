@@ -27,13 +27,24 @@ model Token {
 }
 
 model UserTask {
-  id                Int      @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   title             String
   plannedFinishDate DateTime
-  category          String?
   description       String?
-  User              User?    @relation(fields: [userId], references: [id])
-  userId            Int?
+  user              User?     @relation(fields: [userId], references: [id])
+  userId            Int
+  category          Category? @relation(fields: [categoryId], references: [id])
+  categoryId        Int?
+}
+
+model Category {
+  id       Int        @id @default(autoincrement())
+  name     String
+  UserTask UserTask[]
+}
+
+model Dummy {
+  id Int @id
 }
 
 model ProjectTask {
