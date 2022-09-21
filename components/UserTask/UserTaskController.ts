@@ -12,7 +12,7 @@ class UserTaskController extends CRUDController {
 	};
 
 	protected getAll = async (req: tRequestWithUser, res: Response) => {
-		const userId = req.user?.id;
+		const userId = req.user!.id;
 		const data = await this.service.getAll(userId);
 		res.send(data).status(200);
 	};
@@ -27,10 +27,8 @@ class UserTaskController extends CRUDController {
 	};
 	protected edit = async (req: tRequestWithUser, res: Response) => {
 		const id = +req.params.id;
-		const userId = req.user?.id;
-		console.log(userId);
 		const data = req.body;
-		const element = await this.service.edit(id, userId, data);
+		const element = await this.service.edit(id, data);
 		res.send({ element }).status(200);
 	};
 

@@ -51,9 +51,7 @@ class UserTaskService extends CRUDService {
 		return element;
 	};
 
-	edit = async (id: number, userId: number, data: any) => {
-		console.log(id, userId);
-
+	edit = async (id: number, data: any) => {
 		const element = await this.model.update({
 			where: {
 				id: id
