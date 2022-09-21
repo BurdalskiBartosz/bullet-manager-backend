@@ -23,13 +23,13 @@ export abstract class CRUDService {
 	protected abstract entity: tEntity;
 	protected abstract model: tEntityMethods;
 
-	protected abstract getOne(id: number): void;
+	abstract getOne(id: number): void;
 
-	protected abstract getAll(id: number): void;
+	abstract getAll(id: number): void;
 
-	protected abstract create(data: any): void;
+	abstract create(data: any): void;
 
-	protected abstract edit(id: number, userId: number, data: any): void;
+	abstract edit(id: number, data: any): void;
 
-	protected abstract delete(id: number): void;
+	abstract delete(id: number): void;
 }

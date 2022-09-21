@@ -10,7 +10,7 @@ export abstract class Controller {
 	public service: Service;
 	public router = Router();
 
-	constructor(Service: iClassGenericContructor<Service | CRUDService>) {
+	constructor(Service: iClassGenericContructor<Service>) {
 		this.service = new Service();
 	}
 
@@ -26,12 +26,18 @@ export type tEntity =
 	| 'activity';
 
 export abstract class CRUDController extends Controller {
+	public service: CRUDService;
+
+	constructor(Service: iClassGenericContructor<CRUDService>) {
+		super(Service);
+		this.service = new Service();
+	}
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, authMiddleware, async(this.getOne));
 		this.router.get(`${this.path}`, authMiddleware, async(this.getAll));
 		this.router.post(`${this.path}`, authMiddleware, async(this.create));
 		this.router.patch(`${this.path}/:id`, authMiddleware, async(this.edit));
-		this.router.delete(`${this.path}/:id`, async(this.delete));
+		this.router.delete(`${this.path}/:id`, authMiddleware, async(this.delete));
 	}
 
 	protected abstract getOne(req: Request, res: Response): void;
