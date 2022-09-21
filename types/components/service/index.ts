@@ -29,7 +29,7 @@ export abstract class CRUDService {
 
 	protected abstract create(data: any): void;
 
-	protected abstract edit(): void;
+	protected abstract edit(id: number, userId: number, data: any): void;
 
-	protected abstract delete(): void;
+	protected abstract delete(id: number): void;
 }

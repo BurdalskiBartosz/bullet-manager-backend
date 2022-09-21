@@ -39,8 +39,7 @@ class UserTaskService extends CRUDService {
 	};
 
 	create = async (data: any) => {
-		console.log(data);
-		const task = await this.model.create({
+		const element = await this.model.create({
 			data: {
 				userId: data.userId,
 				title: data.title,
@@ -49,12 +48,31 @@ class UserTaskService extends CRUDService {
 				categoryId: data.category
 			}
 		});
-		return task;
+		return element;
 	};
 
-	async edit() {}
+	edit = async (id: number, userId: number, data: any) => {
+		console.log(id, userId);
 
-	async delete() {}
+		const element = await this.model.update({
+			where: {
+				id: id
+			},
+			data: {
+				...data
+			}
+		});
+		return element;
+	};
+
+	delete = async (id: number) => {
+		const element = await this.model.delete({
+			where: {
+				id: id
+			}
+		});
+		return element;
+	};
 }
 
 export default UserTaskService;
