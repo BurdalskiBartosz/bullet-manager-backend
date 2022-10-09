@@ -2,12 +2,10 @@ import { Module } from '../../types/components/module';
 import AuthController from './AuthController';
 import AuthService from './AuthService';
 
-class AuthModule extends Module {
+class AuthModule implements Module {
 	init() {
-		return {
-			Controller: AuthController,
-			Service: AuthService
-		};
+		const controller = new AuthController(AuthService);
+		return controller;
 	}
 }
 

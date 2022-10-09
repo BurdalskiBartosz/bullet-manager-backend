@@ -2,12 +2,10 @@ import { Module } from '../../types/components/module';
 import TokenController from './TokenController';
 import TokenService from './TokenService';
 
-class TokenModule extends Module {
+class TokenModule implements Module {
 	init() {
-		return {
-			Controller: TokenController,
-			Service: TokenService
-		};
+		const controller = new TokenController(TokenService);
+		return controller;
 	}
 }
 

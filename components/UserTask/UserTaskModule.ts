@@ -2,12 +2,10 @@ import { Module } from '../../types/components/module';
 import UserTaskController from './UserTaskController';
 import UserTaskService from './UserTaskService';
 
-class UserTaskModule extends Module {
+class UserTaskModule implements Module {
 	init() {
-		return {
-			Controller: UserTaskController,
-			Service: UserTaskService
-		};
+		const controller = new UserTaskController(UserTaskService);
+		return controller;
 	}
 }
 

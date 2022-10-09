@@ -3,8 +3,8 @@ import { tEntity } from '../../types/components/controller/shared';
 import { CRUDService, tEntityMethods } from '../../types/components/service';
 
 class UserTaskService extends CRUDService {
-	protected entity: tEntity = 'userTask';
-	protected model: tEntityMethods = prisma[this.entity];
+	entity: tEntity = 'userTask';
+	model: tEntityMethods = prisma[this.entity];
 
 	getOne = async (id: number) => {
 		const element = await this.model.findUnique({

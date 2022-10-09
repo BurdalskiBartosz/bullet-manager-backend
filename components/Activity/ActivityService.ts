@@ -3,13 +3,13 @@ import { tEntity } from '../../types/components/controller/shared';
 import { CRUDService, tEntityMethods } from '../../types/components/service';
 
 class ActivityService extends CRUDService {
-	protected entity: tEntity = 'activity';
-	protected model: tEntityMethods = prisma[this.entity];
+	entity: tEntity = 'activity';
+	model: tEntityMethods = prisma[this.entity];
 
+	async getOne() {}
+	async getAll() {}
 	async create() {}
-
 	async edit() {}
-
 	async delete() {}
 }
 

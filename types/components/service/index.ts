@@ -1,8 +1,9 @@
 import { tEntity } from '../controller/shared';
 
-export interface Service {
+export interface iService {
 	[x: string]: any;
 }
+export class Service implements iService {}
 export type tEntityMethods = {
 	findUnique: Function;
 	findFirst: Function;
@@ -19,9 +20,20 @@ export type tEntityMethods = {
 	groupBy: Function;
 };
 
-export abstract class CRUDService {
-	protected abstract entity: tEntity;
-	protected abstract model: tEntityMethods;
+export interface iCRUDService {
+	entity: tEntity;
+	model: tEntityMethods;
+
+	getOne(id: number): void;
+	getAll(id: number): void;
+	create(data: any): void;
+	edit(id: number, data: any): void;
+	delete(id: number): void;
+}
+
+export abstract class CRUDService implements iCRUDService {
+	abstract entity: tEntity;
+	abstract model: tEntityMethods;
 
 	abstract getOne(id: number): void;
 
