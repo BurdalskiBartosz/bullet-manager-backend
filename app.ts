@@ -31,8 +31,7 @@ class App {
 	private initControllers() {
 		modules.forEach((Module) => {
 			const module = new Module();
-			const { Controller, Service } = module.init();
-			const controller = new Controller(Service);
+			const controller = module.init();
 			controller.initializeRoutes();
 			this.app.use('/api', (...args) => controller.router(...args));
 		});

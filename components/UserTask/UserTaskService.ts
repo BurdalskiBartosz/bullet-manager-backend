@@ -2,8 +2,8 @@ import prisma from '../../prisma/prismaClient';
 import { tEntity } from '../../types/components/controller/shared';
 import { CRUDService, tEntityMethods } from '../../types/components/service';
 
-class TaskService extends CRUDService {
-	entity: tEntity = 'projectTask';
+class UserTaskService extends CRUDService {
+	entity: tEntity = 'userTask';
 	model: tEntityMethods = prisma[this.entity];
 
 	getOne = async (id: number) => {
@@ -12,10 +12,9 @@ class TaskService extends CRUDService {
 				id: id
 			},
 			include: {
-				user: {
+				category: {
 					select: {
-						login: true,
-						email: true
+						name: true
 					}
 				}
 			}
@@ -29,16 +28,9 @@ class TaskService extends CRUDService {
 				userId: id
 			},
 			include: {
-				user: {
+				category: {
 					select: {
-						login: true,
-						email: true
-					}
-				},
-				createdBy: {
-					select: {
-						login: true,
-						email: true
+						name: true
 					}
 				}
 			}
@@ -47,22 +39,38 @@ class TaskService extends CRUDService {
 	};
 
 	create = async (data: any) => {
-		const task = await this.model.create({
+		const element = await this.model.create({
 			data: {
-				userId: +data.user,
+				userId: data.userId,
 				title: data.title,
 				description: data.description,
 				plannedFinishDate: new Date(data.plannedFinishDate),
-				createdById: data.createdBy,
-				priority: +data.priority
+				categoryId: data.category
 			}
 		});
-		return task;
+		return element;
 	};
 
-	async edit() {}
+	edit = async (id: number, data: any) => {
+		const element = await this.model.update({
+			where: {
+				id: id
+			},
+			data: {
+				...data
+			}
+		});
+		return element;
+	};
 
-	async delete() {}
+	delete = async (id: number) => {
+		const element = await this.model.delete({
+			where: {
+				id: id
+			}
+		});
+		return element;
+	};
 }
 
-export default TaskService;
+export default UserTaskService;

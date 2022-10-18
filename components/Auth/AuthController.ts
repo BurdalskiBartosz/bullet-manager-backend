@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { async } from '../../helpers';
-import { Controller } from '../../types/components/controller/shared';
+import { Controller, iController } from '../../types/components/controller/shared';
 import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
 
 class AuthController extends Controller {

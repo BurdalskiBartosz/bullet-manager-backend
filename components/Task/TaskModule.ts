@@ -2,12 +2,10 @@ import { Module } from '../../types/components/module';
 import TaskController from './TaskController';
 import TaskService from './TaskService';
 
-class TaskModule extends Module {
+class TaskModule implements Module {
 	init() {
-		return {
-			Controller: TaskController,
-			Service: TaskService
-		};
+		const controller = new TaskController(TaskService);
+		return controller;
 	}
 }
 

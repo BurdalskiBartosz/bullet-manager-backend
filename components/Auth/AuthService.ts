@@ -2,10 +2,10 @@ import HttpException from '../../exceptions/httpException';
 import prisma from '../../prisma/prismaClient';
 import * as bcrypt from 'bcrypt';
 import { tLoginData, tRegistrationData } from '../../types/components/shared/user';
-import { Service } from '../../types/components/service';
+import { iService } from '../../types/components/service';
 import TokenService from '../Token/TokenService';
 
-class AuthService implements Service {
+class AuthService implements iService {
 	async login(data: tLoginData) {
 		const user = await prisma.user.findFirst({
 			where: {

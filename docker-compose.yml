@@ -1,5 +1,7 @@
 version: '3.4'
 
+volumes:
+  node_modules:
 services:
   db:
     image: mysql
@@ -13,9 +15,13 @@ services:
   back:
     build: .
     restart: always
+    environment:
+      - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@${DOCKER_DB_HOST}:${DB_PORT}/${DB_NAME}
     ports:
       - 3001:3001
     volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
       - ./components:/usr/src/app/components
       - ./exceptions:/usr/src/app/exceptions
       - ./helpers:/usr/src/app/helpers

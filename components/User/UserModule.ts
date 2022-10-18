@@ -1,13 +1,12 @@
+import { CRUDController, iCRUDController } from '../../types/components/controller/shared';
 import { Module } from '../../types/components/module';
 import UserController from './UserController';
 import UserService from './UserService';
 
-class UserModule extends Module {
+class UserModule implements Module {
 	init() {
-		return {
-			Controller: UserController,
-			Service: UserService
-		};
+		const controller = new UserController(UserService);
+		return controller;
 	}
 }
 
