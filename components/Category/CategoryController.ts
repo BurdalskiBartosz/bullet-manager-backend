@@ -8,7 +8,8 @@ class CategoryController extends CRUDController {
 	getOne = async (req: Request, res: Response) => {
 		const id = +req.params.id;
 		console.log(id);
-		res.send({ data: 'getOne' }).status(200);
+		const data = await this.service.getOne(id);
+		res.send(data).status(200);
 	};
 
 	getAll = async (req: tRequestWithUser, res: Response) => {

@@ -12,11 +12,7 @@ class CategoryService extends CRUDService {
 				id: id
 			},
 			include: {
-				category: {
-					select: {
-						name: true
-					}
-				}
+				userTask: true
 			}
 		});
 		return element;
@@ -27,12 +23,8 @@ class CategoryService extends CRUDService {
 			where: {
 				userId: id
 			},
-			select: {
-				id: true,
-				title: true,
-				plannedFinishDate: true,
-				description: true,
-				category: true
+			include: {
+				userTasks: true
 			}
 		});
 		return elements;
@@ -42,16 +34,14 @@ class CategoryService extends CRUDService {
 		const element = await this.model.create({
 			data: {
 				userId: data.userId,
-				title: data.title,
-				description: data.description,
-				plannedFinishDate: new Date(data.plannedFinishDate),
-				categoryId: data.category
+				name: data.name
 			}
 		});
 		return element;
 	};
 
 	edit = async (id: number, data: any) => {
+		console.log('id');
 		const element = await this.model.update({
 			where: {
 				id: id
