@@ -27,12 +27,12 @@ class UserTaskService extends CRUDService {
 			where: {
 				userId: id
 			},
-			include: {
-				category: {
-					select: {
-						name: true
-					}
-				}
+			select: {
+				id: true,
+				title: true,
+				plannedFinishDate: true,
+				description: true,
+				category: true
 			}
 		});
 		return elements;
