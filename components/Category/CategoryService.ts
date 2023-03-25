@@ -18,7 +18,7 @@ class CategoryService extends CRUDService {
 		return element;
 	};
 
-	getAll = async (id: number) => {
+	getAll = async (id: string) => {
 		const elements = await this.model.findMany({
 			where: {
 				userId: id

@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
+import { async } from '../../helpers';
+import { authMiddleware } from '../../middleware';
 import { tRequestWithUser } from '../../types';
 import { CRUDController } from '../../types/components/controller/shared';
 
 class UserTaskController extends CRUDController {
 	public path: string = '/user-task';
+
+	initializeRoutes() {
+		this.router.get(
+			`${this.path}/grouped-by-date`,
+			authMiddleware,
+			async(this.getTaskGroupedByDate)
+		);
+		super.initializeRoutes();
+	}
 
 	getOne = async (req: Request, res: Response) => {
 		const id = +req.params.id;
@@ -14,6 +25,12 @@ class UserTaskController extends CRUDController {
 	getAll = async (req: tRequestWithUser, res: Response) => {
 		const userId = req.user!.id;
 		const data = await this.service.getAll(userId);
+		res.send(data).status(200);
+	};
+
+	getTaskGroupedByDate = async (req: tRequestWithUser, res: Response) => {
+		const userId = req.user!.id;
+		const data = await this.service.getTaskGroupedByDate(userId);
 		res.send(data).status(200);
 	};
 
