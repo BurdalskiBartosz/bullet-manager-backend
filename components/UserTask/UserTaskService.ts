@@ -59,10 +59,14 @@ class UserTaskService extends CRUDService {
 	};
 
 	getTaskGroupedByDate = async (id: string) => {
-		const startOfToday = startOfDay(new Date());
+		const nextDay = startOfDay(
+			add(new Date(), {
+				days: 1
+			})
+		);
 		const startOfNextDay = startOfDay(
 			add(new Date(), {
-				days: 20
+				days: 5
 			})
 		);
 
@@ -70,7 +74,7 @@ class UserTaskService extends CRUDService {
 			where: {
 				userId: id,
 				plannedFinishDate: {
-					gte: startOfToday,
+					gte: nextDay,
 					lte: startOfNextDay
 				}
 			},

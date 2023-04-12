@@ -3,9 +3,11 @@ import { async } from '../../helpers';
 import { authMiddleware } from '../../middleware';
 import { tRequestWithUser } from '../../types';
 import { CRUDController } from '../../types/components/controller/shared';
+import UserTaskService from './UserTaskService';
 
 class UserTaskController extends CRUDController {
 	public path: string = '/user-task';
+	public service!: UserTaskService;
 
 	initializeRoutes() {
 		this.router.get(
