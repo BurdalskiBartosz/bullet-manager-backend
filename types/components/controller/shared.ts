@@ -8,6 +8,7 @@ import { iCRUDService, iService } from '../service';
 export type tEntity =
 	| 'user'
 	| 'userTask'
+	| 'category'
 	| 'projectTask'
 	| 'comment'
 	| 'tag'

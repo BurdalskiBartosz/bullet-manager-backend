@@ -1,38 +1,20 @@
 import { Request, Response } from 'express';
-import { async } from '../../helpers';
-import { authMiddleware } from '../../middleware';
 import { tRequestWithUser } from '../../types';
 import { CRUDController } from '../../types/components/controller/shared';
-import UserTaskService from './UserTaskService';
 
-class UserTaskController extends CRUDController {
-	public path: string = '/user-task';
-	public service!: UserTaskService;
-
-	initializeRoutes() {
-		this.router.get(
-			`${this.path}/grouped-by-date`,
-			authMiddleware,
-			async(this.getTaskGroupedByDate)
-		);
-		super.initializeRoutes();
-	}
+class CategoryController extends CRUDController {
+	public path: string = '/category';
 
 	getOne = async (req: Request, res: Response) => {
 		const id = +req.params.id;
 		console.log(id);
-		res.send({ data: 'getOne' }).status(200);
+		const data = await this.service.getOne(id);
+		res.send(data).status(200);
 	};
 
 	getAll = async (req: tRequestWithUser, res: Response) => {
 		const userId = req.user!.id;
 		const data = await this.service.getAll(userId);
-		res.send(data).status(200);
-	};
-
-	getTaskGroupedByDate = async (req: tRequestWithUser, res: Response) => {
-		const userId = req.user!.id;
-		const data = await this.service.getTaskGroupedByDate(userId);
 		res.send(data).status(200);
 	};
 
@@ -59,4 +41,4 @@ class UserTaskController extends CRUDController {
 	};
 }
 
-export default UserTaskController;
+export default CategoryController;

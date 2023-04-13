@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
 export type tUser = {
-	id: number;
+	id: string;
 	email: string;
 };
 

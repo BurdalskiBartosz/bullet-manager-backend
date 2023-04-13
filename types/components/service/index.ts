@@ -25,10 +25,11 @@ export interface iCRUDService {
 	model: tEntityMethods;
 
 	getOne(id: number): void;
-	getAll(id: number): void;
+	getAll(id: string): void;
 	create(data: any): void;
-	edit(id: number, data: any): void;
+	edit(id: string, data: any): void;
 	delete(id: number): void;
+	[x: string]: any;
 }
 
 export abstract class CRUDService implements iCRUDService {
@@ -37,11 +38,11 @@ export abstract class CRUDService implements iCRUDService {
 
 	abstract getOne(id: number): void;
 
-	abstract getAll(id: number): void;
+	abstract getAll(id: string): void;
 
 	abstract create(data: any): void;
 
-	abstract edit(id: number, data: any): void;
+	abstract edit(id: string, data: any): void;
 
 	abstract delete(id: number): void;
 }
