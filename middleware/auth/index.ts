@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express';
-import { tRequestWithUser } from '../../types';
+import { UserToReqMiddleware } from '../../types';
 import TokenService from '../../components/Token/TokenService';
 import HttpException from '../../exceptions/httpException';
 
-export default async (req: tRequestWithUser, res: Response, next: NextFunction) => {
+export default async (req: UserToReqMiddleware, res: Response, next: NextFunction) => {
 	const tokenValue = req.cookies.token;
 	const tokenService = new TokenService();
 	try {
