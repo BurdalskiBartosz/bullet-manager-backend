@@ -5,6 +5,8 @@ export type tUser = {
 	email: string;
 };
 
-export type tRequestWithUser = {
+export type UserToReqMiddleware = {
 	user?: tUser;
 } & Request;
+
+export type RequestWithUser = Required<UserToReqMiddleware>;

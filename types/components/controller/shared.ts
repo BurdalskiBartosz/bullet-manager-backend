@@ -1,19 +1,9 @@
-import { Request, Response, Router } from 'express';
-import { tRequestWithUser } from '../..';
+import { Response, Router } from 'express';
+import { RequestWithUser } from '../..';
 import { async } from '../../../helpers';
 import { authMiddleware } from '../../../middleware';
 import { iClassGenericContructor } from '../../class';
 import { iCRUDService, iService } from '../service';
-
-export type tEntity =
-	| 'user'
-	| 'userTask'
-	| 'category'
-	| 'projectTask'
-	| 'comment'
-	| 'tag'
-	| 'token'
-	| 'activity';
 
 export type iController = {
 	path: string;
@@ -23,11 +13,11 @@ export type iController = {
 };
 
 export type iCRUDController = {
-	getOne(req: Request, res: Response): void;
-	getAll(req: tRequestWithUser, res: Response): void;
-	create(req: Request, res: Response): void;
-	edit(req: Request, res: Response): void;
-	delete(req: Request, res: Response): void;
+	getOne(req: RequestWithUser, res: Response): void;
+	getAll(req: RequestWithUser, res: Response): void;
+	create(req: RequestWithUser, res: Response): void;
+	edit(req: RequestWithUser, res: Response): void;
+	delete(req: RequestWithUser, res: Response): void;
 } & iController;
 
 abstract class BaseController implements iController {
@@ -47,11 +37,14 @@ export abstract class Controller extends BaseController {
 	abstract initializeRoutes(): void;
 }
 
-export abstract class CRUDController extends BaseController implements iCRUDController {
-	public service: iCRUDService;
+export abstract class CRUDController<T extends iCRUDService>
+	extends BaseController
+	implements iCRUDController
+{
+	public service: T;
 	public router = Router();
 
-	constructor(Service: iClassGenericContructor<iCRUDService>) {
+	constructor(Service: iClassGenericContructor<T>) {
 		super();
 		this.service = new Service();
 	}
@@ -63,13 +56,24 @@ export abstract class CRUDController extends BaseController implements iCRUDCont
 		this.router.delete(`${this.path}/:id`, authMiddleware, async(this.delete));
 	}
 
-	abstract getOne(req: Request, res: Response): void;
+	abstract getOne(req: RequestWithUser, res: Response): void;
 
-	abstract getAll(req: tRequestWithUser, res: Response): void;
+	getAll = async (req: RequestWithUser, res: Response) => {
+		const userId = req.user.id;
+		const data = await this.service.getAll(userId);
+		res.send(data).status(200);
+	};
 
-	abstract create(req: Request, res: Response): void;
+	create = async (req: RequestWithUser, res: Response) => {
+		const createData = {
+			...req.body,
+			userId: req.user?.id
+		};
+		const data = await this.service.create(createData);
+		res.send({ data }).status(200);
+	};
 
-	abstract edit(req: Request, res: Response): void;
+	abstract edit(req: RequestWithUser, res: Response): void;
 
-	abstract delete(req: Request, res: Response): void;
+	abstract delete(req: RequestWithUser, res: Response): void;
 }

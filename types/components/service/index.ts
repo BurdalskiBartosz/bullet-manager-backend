@@ -1,42 +1,38 @@
-import { tEntity } from '../controller/shared';
+// export type tEntity =
+// 	| 'user'
+// 	| 'userTask'
+// 	| 'category'
+// 	| 'projectTask'
+// 	| 'comment'
+// 	| 'tag'
+// 	| 'token'
+// 	| 'activity';
 
 export interface iService {
 	[x: string]: any;
 }
 export class Service implements iService {}
-export type tEntityMethods = {
-	findUnique: Function;
-	findFirst: Function;
-	findMany: Function;
-	create: Function;
-	createMany: Function;
-	delete: Function;
-	update: Function;
-	deleteMany: Function;
-	updateMany: Function;
-	upsert: Function;
-	count: Function;
-	aggregate: Function;
-	groupBy: Function;
-};
 
 export interface iCRUDService {
-	entity: tEntity;
-	model: tEntityMethods;
-
-	getOne(id: number): void;
+	// entity: tEntity;
+	// model: typeof dbService[tEntity];
+	getOne(id: string): void;
 	getAll(id: string): void;
 	create(data: any): void;
 	edit(id: string, data: any): void;
-	delete(id: number): void;
-	[x: string]: any;
+	delete(id: string): void;
 }
 
 export abstract class CRUDService implements iCRUDService {
-	abstract entity: tEntity;
-	abstract model: tEntityMethods;
+	// entity: tEntity;
+	// model: typeof dbService[tEntity];
 
-	abstract getOne(id: number): void;
+	// constructor(entity: tEntity) {
+	// 	this.entity = entity ;
+	// 	this.model = dbService[entity];
+	// }
+
+	abstract getOne(id: string): void;
 
 	abstract getAll(id: string): void;
 
@@ -44,5 +40,5 @@ export abstract class CRUDService implements iCRUDService {
 
 	abstract edit(id: string, data: any): void;
 
-	abstract delete(id: number): void;
+	abstract delete(id: string): void;
 }
