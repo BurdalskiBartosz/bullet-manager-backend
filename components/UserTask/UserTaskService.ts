@@ -51,7 +51,8 @@ class UserTaskService extends CRUDService {
 				plannedFinishDate: true,
 				description: true,
 				categories: true,
-				priority: true
+				priority: true,
+				isDone: true
 			}
 		});
 
@@ -84,7 +85,8 @@ class UserTaskService extends CRUDService {
 				plannedFinishDate: true,
 				description: true,
 				categories: true,
-				priority: true
+				priority: true,
+				isDone: true
 			}
 		});
 
@@ -133,13 +135,14 @@ class UserTaskService extends CRUDService {
 				plannedFinishDate: new Date(data.plannedFinishDate),
 				categories: {
 					...categoriesActions
-				}
+				},
+				isDone: false
 			}
 		});
 		return element;
 	};
 
-	edit = async (id: number, data: any) => {
+	edit = async (id: string, data: any) => {
 		const element = await this.model.update({
 			where: {
 				id: id

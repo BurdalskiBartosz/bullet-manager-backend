@@ -45,7 +45,7 @@ class UserTaskController extends CRUDController {
 		res.send({ data }).status(200);
 	};
 	edit = async (req: tRequestWithUser, res: Response) => {
-		const id = +req.params.id;
+		const id = req.params.id;
 		const data = req.body;
 		const element = await this.service.edit(id, data);
 		res.send({ element }).status(200);

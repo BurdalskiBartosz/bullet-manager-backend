@@ -27,7 +27,7 @@ export interface iCRUDService {
 	getOne(id: number): void;
 	getAll(id: string): void;
 	create(data: any): void;
-	edit(id: number, data: any): void;
+	edit(id: string, data: any): void;
 	delete(id: number): void;
 	[x: string]: any;
 }
@@ -42,7 +42,7 @@ export abstract class CRUDService implements iCRUDService {
 
 	abstract create(data: any): void;
 
-	abstract edit(id: number, data: any): void;
+	abstract edit(id: string, data: any): void;
 
 	abstract delete(id: number): void;
 }

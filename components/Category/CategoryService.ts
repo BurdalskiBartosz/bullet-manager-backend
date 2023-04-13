@@ -40,8 +40,7 @@ class CategoryService extends CRUDService {
 		return element;
 	};
 
-	edit = async (id: number, data: any) => {
-		console.log('id');
+	edit = async (id: string, data: any) => {
 		const element = await this.model.update({
 			where: {
 				id: id

@@ -36,6 +36,7 @@ model UserTask {
   userId            String
   categories        Category[]
   priority          String     @default("1")
+  isDone            Boolean    @default(false)
 }
 
 model Category {
