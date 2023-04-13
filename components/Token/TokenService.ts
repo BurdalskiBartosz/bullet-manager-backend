@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { Service } from '../../types/components/service';
 
 class TokenService implements Service {
-	async create(userId: any) {
+	async create(userId: string) {
 		const token = crypto.randomBytes(64).toString('hex');
 		await prisma.token.create({
 			data: {

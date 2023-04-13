@@ -1,18 +1,16 @@
 import prisma from '../../prisma/prismaClient';
-import { tEntity } from '../../types/components/controller/shared';
-import { CRUDService, tEntityMethods } from '../../types/components/service';
+import { CRUDService } from '../../types/components/service';
 
 class CategoryService extends CRUDService {
-	entity: tEntity = 'category';
-	model: tEntityMethods = prisma[this.entity];
+	model = prisma['category'];
 
-	getOne = async (id: number) => {
+	getOne = async (id: string) => {
 		const element = await this.model.findUnique({
 			where: {
 				id: id
 			},
 			include: {
-				userTask: true
+				userTasks: true
 			}
 		});
 		return element;
@@ -52,7 +50,7 @@ class CategoryService extends CRUDService {
 		return element;
 	};
 
-	delete = async (id: number) => {
+	delete = async (id: string) => {
 		const element = await this.model.delete({
 			where: {
 				id: id

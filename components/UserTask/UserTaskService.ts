@@ -1,7 +1,6 @@
-import prisma from '../../prisma/prismaClient';
-import { tEntity } from '../../types/components/controller/shared';
-import { CRUDService, tEntityMethods } from '../../types/components/service';
+import { CRUDService } from '../../types/components/service';
 import { startOfDay, add, format, isAfter } from 'date-fns';
+import dbService from '../db/DBService';
 
 type UserTask = {
 	userId: string;
@@ -11,20 +10,16 @@ type UserTask = {
 	category?: string;
 };
 class UserTaskService extends CRUDService {
-	entity: tEntity = 'userTask';
-	model: tEntityMethods = prisma[this.entity];
+	entity = 'userTask' as const;
+	model = dbService[this.entity];
 
-	getOne = async (id: number) => {
+	getOne = async (id: string) => {
 		const element = await this.model.findUnique({
 			where: {
 				id: id
 			},
 			include: {
-				category: {
-					select: {
-						name: true
-					}
-				}
+				categories: true
 			}
 		});
 		return element;
@@ -154,7 +149,7 @@ class UserTaskService extends CRUDService {
 		return element;
 	};
 
-	delete = async (id: number) => {
+	delete = async (id: string) => {
 		const element = await this.model.delete({
 			where: {
 				id: id

@@ -1,12 +1,10 @@
-import { CRUDService, tEntityMethods } from '../../types/components/service';
-import { tEntity } from '../../types/components/controller/shared';
-import prisma from '../../prisma/prismaClient';
+import { CRUDService } from '../../types/components/service';
+import dbService from '../db/DBService';
 
 class UserService extends CRUDService {
-	entity: tEntity = 'user';
-	model: tEntityMethods = prisma[this.entity];
+	model = dbService['user'];
 
-	getOne = async (id: number) => {
+	getOne = async (id: string) => {
 		const element = await this.model.findUnique({
 			where: {
 				id: id
