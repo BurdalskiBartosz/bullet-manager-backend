@@ -1,3 +1,3 @@
-export interface iClassGenericContructor<T> {
+export interface Contructor<T> {
 	new (): T;
 }

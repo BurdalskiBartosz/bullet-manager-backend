@@ -4,9 +4,9 @@ import AuthModule from './components/Auth/AuthModule';
 import UserTaskModule from './components/UserTask/UserTaskModule';
 import CategoryModule from './components/Category/CategoryModule';
 import { Module } from './types/components/module';
-import { iClassGenericContructor } from './types/class';
+import { Contructor } from './types/class';
 
-export const modules: iClassGenericContructor<Module>[] = [
+export const modules: Contructor<Module>[] = [
 	AuthModule,
 	UserModule,
 	TokenModule,

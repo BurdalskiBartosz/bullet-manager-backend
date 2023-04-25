@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import 'reflect-metadata';
 import { Application } from 'express';
 import http, { Server } from 'http';
 import App from '../app';
@@ -48,8 +49,7 @@ class WWWWServer {
 		if (error.syscall !== 'listen') {
 			throw error;
 		}
-		const bind =
-			typeof this.port === 'string' ? `pipe ${this.port}` : `Port ${this.port}`;
+		const bind = typeof this.port === 'string' ? `pipe ${this.port}` : `Port ${this.port}`;
 
 		switch (error.code) {
 			case 'EACCES':

@@ -3,17 +3,16 @@ RUN apk add --no-cache libc6-compat openssl1.1-compat chromium
 
 WORKDIR /app
 
-COPY package.json .
+COPY package.json /app
 
-COPY prisma ./prisma/
+COPY prisma app/prisma/
 
 RUN npm install
 
-ENV PATH="/app/node_modules/.bin:$PATH"
-
-COPY . .
+COPY . /app
 
 WORKDIR /app
+
 RUN npx prisma generate
 
 RUN npm i -g nodemon

@@ -23,6 +23,21 @@ class UserTaskController extends CRUDController<UserTaskService> {
 		res.send({ data: 'getOne' }).status(200);
 	};
 
+	getAll = async (req: RequestWithUser, res: Response) => {
+		const userId = req.user.id;
+		const data = await this.service.getAll(userId);
+		res.send(data).status(200);
+	};
+
+	create = async (req: RequestWithUser, res: Response) => {
+		const createData = {
+			...req.body,
+			userId: req.user?.id
+		};
+		const data = await this.service.create(createData);
+		res.send({ data }).status(200);
+	};
+
 	getTaskGroupedByDate = async (req: RequestWithUser, res: Response) => {
 		const userId = req.user.id;
 		const data = await this.service.getTaskGroupedByDate(userId);

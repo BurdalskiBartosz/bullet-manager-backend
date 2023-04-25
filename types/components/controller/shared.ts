@@ -2,7 +2,7 @@ import { Response, Router } from 'express';
 import { RequestWithUser } from '../..';
 import { async } from '../../../helpers';
 import { authMiddleware } from '../../../middleware';
-import { iClassGenericContructor } from '../../class';
+import { Contructor } from '../../class';
 import { iCRUDService, iService } from '../service';
 
 export type iController = {
@@ -13,6 +13,8 @@ export type iController = {
 };
 
 export type iCRUDController = {
+	data?: Data<any, any>;
+
 	getOne(req: RequestWithUser, res: Response): void;
 	getAll(req: RequestWithUser, res: Response): void;
 	create(req: RequestWithUser, res: Response): void;
@@ -30,12 +32,22 @@ abstract class BaseController implements iController {
 
 export abstract class Controller extends BaseController {
 	public service: iService;
-	constructor(Service: iClassGenericContructor<iService>) {
+	constructor(Service: Contructor<iService>) {
 		super();
 		this.service = new Service();
 	}
 	abstract initializeRoutes(): void;
 }
+
+type Data<T, K> = {
+	body?: T;
+	params?: string | number;
+	query?: {
+		take?: number;
+		skip?: number;
+		where?: object;
+	} & K;
+};
 
 export abstract class CRUDController<T extends iCRUDService>
 	extends BaseController
@@ -44,10 +56,11 @@ export abstract class CRUDController<T extends iCRUDService>
 	public service: T;
 	public router = Router();
 
-	constructor(Service: iClassGenericContructor<T>) {
+	constructor(Service: Contructor<T>) {
 		super();
 		this.service = new Service();
 	}
+
 	initializeRoutes() {
 		this.router.get(`${this.path}/:id`, authMiddleware, async(this.getOne));
 		this.router.get(`${this.path}`, authMiddleware, async(this.getAll));
@@ -58,20 +71,9 @@ export abstract class CRUDController<T extends iCRUDService>
 
 	abstract getOne(req: RequestWithUser, res: Response): void;
 
-	getAll = async (req: RequestWithUser, res: Response) => {
-		const userId = req.user.id;
-		const data = await this.service.getAll(userId);
-		res.send(data).status(200);
-	};
+	abstract create(req: RequestWithUser, res: Response): void;
 
-	create = async (req: RequestWithUser, res: Response) => {
-		const createData = {
-			...req.body,
-			userId: req.user?.id
-		};
-		const data = await this.service.create(createData);
-		res.send({ data }).status(200);
-	};
+	abstract getAll(req: RequestWithUser, res: Response): void;
 
 	abstract edit(req: RequestWithUser, res: Response): void;
 

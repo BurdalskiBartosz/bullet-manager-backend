@@ -8,12 +8,12 @@
 // 	| 'token'
 // 	| 'activity';
 
-export interface iService {
+export type iService = {
 	[x: string]: any;
-}
+};
 export class Service implements iService {}
 
-export interface iCRUDService {
+export type iCRUDService = {
 	// entity: tEntity;
 	// model: typeof dbService[tEntity];
 	getOne(id: string): void;
@@ -21,7 +21,7 @@ export interface iCRUDService {
 	create(data: any): void;
 	edit(id: string, data: any): void;
 	delete(id: string): void;
-}
+};
 
 export abstract class CRUDService implements iCRUDService {
 	// entity: tEntity;
